@@ -136,12 +136,12 @@
                     </div>
                 </div>
             </ui-view>
-            {{busqOptions}}
+
             <div class="row" ng-hide="tableSearch[value][tabSelected].hide">
                 <!--##Busqueda-->
                 <div class="col-md-12">
                     <div class="form-group">
-                        <strong><H4>{{tableSearch[value][tabSelected].description}}</H4></strong> {{tipoBusqueda}}
+                        <strong><H4>{{tableSearch[value][tabSelected].description}}</H4></strong>
                         <p>
                             <label class="radio-inline searchOptions" ng-repeat="itemSearch in searchOptionsArray" ng-hide="!tableSearch[value][tabSelected].{{itemSearch.varTxt}}">
                                 <input type="radio" name="radio-2" class="cbr cbr-blue" ng-model="tipoBusqueda" ng-click="checkBottonValue(itemSearch.value)" value="{{itemSearch.value}}">
@@ -669,7 +669,7 @@
 
                                 <div class="row" ng-hide="selected">
                                     <br>
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="alert alert-warning">
                                             <strong>No hay resultados</strong>
                                         </div>
