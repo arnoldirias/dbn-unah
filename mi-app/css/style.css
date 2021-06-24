@@ -1,0 +1,98 @@
+.sidebar-menu {
+    width: 240px;
+}
+
+.navbar.horizontal-menu {
+    background: navy;
+}
+
+#newBottonText {
+    float: right;
+    margin-top: 13px;
+    margin-bottom: 0px;
+    background-color: #8dc63f;
+}
+
+.btn.btn-primary.btn-icon-standalone i {
+    background-color: darkslategray;
+    border-right-color: #8dc63f;
+}
+
+#modal-descargo {
+    width: 75%;
+}
+
+.page-container .main-content .page-title {
+    margin-bottom: 10px;
+}
+
+.panel.panel-color {
+    padding: 20px 30px 10px 30px
+}
+
+.panel .panel-body {
+    padding-top: 5px;
+}
+
+.nav.nav-tabs+.tab-content {
+    padding: 10px;
+}
+
+.panel.panel-success .panel-heading {
+    background-color: cornflowerblue;
+}
+
+#btnDropdown {
+    background-color: cornflowerblue;
+    margin-bottom: -10px;
+    margin-top: -10px;
+}
+
+.form-wizard>.tabs>li a {
+    padding: 5px;
+    color: #979898;
+}
+
+.modal-footer {
+    padding: 0px;
+}
+
+.pager {
+    margin: 0px;
+}
+
+.form-wizard .tab-content .tab-pane.with-bg {
+    padding: 0px;
+}
+
+div.ms-container {
+    width: 100%;
+}
+
+#resumenBienes {
+    float: right;
+}
+
+.fr {
+    float: right;
+}
+
+.drop-top {
+    top: -250%
+}
+
+.drop-left {
+    left: -130px;
+}
+
+.bcr {
+    color: red;
+}
+
+#oficioRef #inputBusqueda #inputBusqueda2 {
+    text-transform: uppercase;
+}
+
+.btn-r {
+    border-radius: 25px;
+}
