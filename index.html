@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="dbn-app">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Xenon Boostrap Admin Panel" />
+    <meta name="author" content="" />
+
+    <title>DBN-UNAH</title>
+
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Arimo:400,700,400italic">
+    <link rel="stylesheet" href="assets/css/fonts/linecons/css/linecons.css">
+    <link rel="stylesheet" href="assets/css/fonts/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/xenon-core.css">
+    <link rel="stylesheet" href="assets/css/xenon-forms.css">
+    <link rel="stylesheet" href="assets/css/xenon-components.css">
+    <link rel="stylesheet" href="assets/css/xenon-skins.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+
+    <!-- ##Nuevos estilos-->
+    <link rel="stylesheet" href="mi-app/css/style.css">
+
+    <script src="assets/js/jquery-1.11.1.min.js"></script>
+    <script>
+        var appHelper = {
+            // Vars (paths without trailing slash)
+            templatesDir: 'app/tpls',
+            assetsDir: 'assets',
+
+            // Methods
+            templatePath: function(view_name) {
+                return this.templatesDir + '/' + view_name + '.html';
+            },
+            assetPath: function(file_path) {
+                return this.assetsDir + '/' + file_path;
+            }
+        };
+    </script>
+</head>
+
+<body class="page-body" ng-controller="mi_app">
+
+    <!--##Navbar-->
+    <nav class="navbar horizontal-menu navbar-fixed-top">
+        <!-- set fixed position by adding class "navbar-fixed-top" -->
+        <div class="navbar-inner">
+            <!-- Navbar Brand -->
+            <div class="navbar-brand">
+                <a href="#" class="logo">
+                    <img src="mi-app/img/logo-unah.png" width="80" alt="" class="hidden-xs" />
+                    <img src="mi-app/img/logo-unah.png" width="80" alt="" class="visible-xs" />
+                </a>
+            </div>
+
+            <!-- Mobile Toggles Links -->
+            <div class="nav navbar-mobile">
+                <div class="mobile-menu-toggle">
+                    <a href="#" data-toggle="mobile-menu-horizontal">
+                        <i class="fa-bars"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="navbar-mobile-clear"></div>
+            <!-- ##main menu -->
+            <ul class="navbar-nav">
+                <li>
+                    <a href="#">
+                        <i class="linecons-note"></i>
+                        <span class="title">Inventario</span>
+                    </a>
+                    <ul id="myMainMenu">
+                        <li ng-repeat="cat in mi_app">
+                            <a href="#" ng-click="select(cat.index)">
+                                <span class="title">{{cat.name}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="linecons-params"></i>
+                        <span class="title">Mantenimiento</span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="#">
+                                <span class="title">Especies</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- notifications and other links -->
+            <ul class="nav nav-userinfo navbar-right">
+                <li class="dropdown user-profile">
+                    <a href="#" data-toggle="dropdown">
+                        <img src="assets/images/user-1.png" alt="user-image" class="img-circle img-inline userpic-32" width="28" />
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <!--##Sidebar-->
+        <div class="sidebar-menu toggle-others fixed">
+            <div class="sidebar-menu-inner">
+                <ul id="main-menu" class="main-menu">
+                    <li ng-repeat="opt in mi_app[value].tabs">
+                        <a href="#" ng-click="mostrarModal2($index)">
+                            <i class={{opt.iconname}}></i>
+                            <span class="title">{{opt.tabname}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <ui-view class="main-content-view">
+                <!--##Titulo env -->
+                <div class="page-title full-width" title="Buttons" description="">
+                    <div class="title-env">
+                        <a href="javascript:;" id="newBottonText" ng-click="mostrarModal()" class="btn btn-primary btn-icon btn-icon-standalone">
+                            <i class={{mi_app[value].btnIconName}}></i>
+                            <span>{{mi_app[value].newBottonText}}</span>
+                        </a>
+
+                        <h1 class="title">{{mi_app[value].name}}</h1>
+                        <p class="description">{{mi_app[value].description}}</p>
+                    </div>
+                </div>
+            </ui-view>
+            {{busqOptions}}
+            <div class="row" ng-hide="tableSearch[value][tabSelected].hide">
+                <!--##Busqueda-->
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <strong><H4>{{tableSearch[value][tabSelected].description}}</H4></strong> {{tipoBusqueda}}
+                        <p>
+                            <label class="radio-inline searchOptions" ng-repeat="itemSearch in searchOptionsArray" ng-hide="!tableSearch[value][tabSelected].{{itemSearch.varTxt}}">
+                                <input type="radio" name="radio-2" class="cbr cbr-blue" ng-model="tipoBusqueda" ng-click="checkBottonValue(itemSearch.value)" value="{{itemSearch.value}}">
+                                    {{itemSearch.description}}
+                            </label>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="row" ng-hide="tipoBusqueda>=15">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" ng-model="busqOptions.text" ng-keyup="$event.keyCode == 13 && busqGeneral()" class="form-control no-right-border form-focus-green" placeholder="{{searchPlaceholder[tipoBusqueda]}}">
+                                <span class="input-group-btn">
+                      <button class="btn btn-success" ng-click="busqGeneral()">
+                        <i class="fa-search"></i>
+                        <span>Buscar</span>
+                                </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-hide="tipoBusqueda<15">
+
+                        <!-- requiere codigo jqueryReady.js-->
+                        <div class="form-group col-md-6">
+                            <label class="control-label" for="state">Centro Universitario:</label>
+                            <select name="test" class="selectboxitForm" ng-model="busqOptions.centro">
+                                <option value="0"> Seleccione...</option>
+                                     <option value="1">Ciudad Universitaria</option>
+                                        <option value="2">UNAH Valle de Sula</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6" ng-hide="tipoBusqueda<16">
+                            <label class="control-label" for="state">Dependencia:</label>
+                            <select name="test" class="selectboxitForm" ng-model="busqOptions.dep" data-validate="required" data-message-required="Este campo es obligatorio.">
+                                <option value="0"> Seleccione...</option>
+                                <option value="1">Rectoría</option>
+                                <option value="2">Secretaría Ejecutiva de Administración y Finanzas</option>
+                              
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6" ng-hide="tipoBusqueda<17">
+                            <label class="control-label" for="state">Unidad:</label>
+                            <select name="test" class="selectboxitForm" ng-model="busqOptions.unidad" data-validate="required" data-message-required="Este campo es obligatorio.">
+                                <option value="0"> Seleccione...</option>
+                                <option value="1">Secretaría Ejecutiva de Administración y Finanzas</option>
+                                <option value="2">Departamento de Bienes Nacionales</option>
+                              
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6" ng-hide="tipoBusqueda<18">
+                            <label class="control-label" for="state">Ubicación:</label>
+                            <select name="test" class="selectboxitForm" ng-model="busqOptions.ubicacion">
+                            <option value="0"> Seleccione...</option>
+                              <option value="1">Ubicación 1</option>
+                              <option value="2">Ubicación 2</option>
+                            </optgroup>
+                          </select>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-hide="selected">
+                        <br>
+                        <div class="col-md-6">
+                            <div class="alert alert-warning">
+                                <strong>No hay resultados</strong>
+                            </div>
+
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <ul>
+                            <li ng-repeat="el in solicitudes track by $index"><span>{{el}}</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="row" ng-if="s_array.length==1">
+                        <div class="col-md-12">
+                            <div class="panel panel-color panel-success">
+                                <!-- Add class "collapsed" to minimize the panel -->
+                                <div class="panel-heading">
+
+                                    <h3 class="panel-title">Solicitud de descargo N° {{s_array[0].num}}</h3>
+                                    <div class="panel-options">
+                                        <div class="btn-group rigth-dropdown">
+                                            <button type="button" id="btnDropdown" class="btn dropdown-toggle" data-toggle="dropdown">
+                                                <span class="fa-ellipsis-v"></span>
+                                            </button>
+
+                                            <ul class="dropdown-menu dropdown-blue drop-left" role="menu">
+                                                <li>
+                                                    <a href="#">Ver más</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Imprimir solicitud</a>
+                                                </li>
+                                                <li class="divider"></li>
+                                                <li>
+                                                    <a href="#" ng-if="s_array[0].estado==1">Editar solicitud</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-if="s_array[0].estado==3">Realizar descargo</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-if="s_array[0].estado==4">Continuar descargo</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-if="s_array[0].estado==5">Generar comprobante</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <strong><h4>Detalles de la Unidad Solicitante</h4></strong>
+                                            <div>Centro universitario: <strong>{{s_array[0].centro}}</strong></div>
+                                            <div>Dependencia: <strong>{{s_array[0].dep}}</strong></div>
+                                            <div>Unidad: <strong>{{s_array[0].unidad}}</strong></div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <strong><h4>Datos de la solicitud</h4></strong>
+                                            <div>Número: <strong>{{s_array[0].num}}</strong></div>
+                                            <div>Fecha de ingreso: <strong>{{s_array[0].fecha}}</strong></div>
+                                            <div>Estado:
+                                                <span class="badge" ng-if="s_array[0].estado==1">BORRADOR</span>
+                                                <span class="badge badge-red" ng-if="s_array[0].estado==2">NO FAVORABLE</span>
+                                                <span class="badge badge-secondary" ng-if="s_array[0].estado==3">APROBADA</span>
+                                                <span class="badge badge-warning" ng-if="s_array[0].estado==4">DESCARGO PENDIENTE</span>
+                                                <span class="badge badge-info" ng-if="s_array[0].estado==5">DESCARGO COMPLETADO</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong><h4>Detalles del Oficio</h4></strong>
+                                            <div>Solicitante: <strong>{{s_array[0].nombre}}</strong></div>
+                                            <div>Número de documento: <strong>{{s_array[0].numDoc}}</strong></div>
+                                            <div>Fecha: <strong>{{s_array[0].fechaDoc}}</strong></div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <table class="table table-bordered table-striped table-condensed table-hover" ng-if="s_array[0].bienes.length>0">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>N° Inv.</th>
+                                                        <th>Descripción</th>
+                                                        <th>Marca</th>
+                                                        <th>Valor</th>
+                                                        <th>Razón de descargo</th>
+                                                        <th>Obs.</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    <tr ng-repeat="bien in s_array[0].bienes">
+                                                        <td>{{$index + 1}}</td>
+                                                        <th>
+                                                            <span>{{bien.numInv}}</span><br>
+                                                            <span class="badge badge-info" ng-if="bien.numFicha!=''">{{bien.numFicha}}</span>
+
+                                                        </th>
+                                                        <th>
+                                                            <span>{{bien.descripcion}}</span><br>
+                                                            <span>{{bien.color}}</span>
+                                                        </th>
+                                                        <th>
+                                                            <span>{{bien.marca}}</span><br>
+                                                            <span>{{bien.modelo}}</span>
+                                                        </th>
+                                                        <th>L. <span class="fr">{{bien.valor}}</span></th>
+                                                        <th>{{bien.razon}}</th>
+                                                        <th>{{bien.obs}}</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="col-md-6">
+                                                <p>Cant. de bienes: <strong>{{s_array[0].bienes.length}}</strong></p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="fr">Valor de adquisición: <strong>L. {{valorTotal(0)}}</strong></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row" ng-if="s_array[0].obs!=''">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="field-7" class="control-label">Observaciones generales:</label>
+                                                <p>{{s_array[0].obs}}</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="s_array.length>1">
+                        <div class="col-md-6" ng-if="s_array.length<5" ng-repeat="solicitud in s_array">
+                            <div class="panel panel-color panel-success">
+                                <!-- Add class "collapsed" to minimize the panel -->
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Solicitud de descargo N° {{solicitud.num}}</h3>
+                                    <div class="panel-options">
+                                        <div class="btn-group rigth-dropdown">
+                                            <button type="button" id="btnDropdown" class="btn dropdown-toggle" data-toggle="dropdown">
+                                                <span class="fa-ellipsis-v"></span>
+                                            </button>
+
+                                            <ul class="dropdown-menu dropdown-blue drop-left" role="menu">
+                                                <li>
+                                                    <a href="#">Ver más</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Imprimir solicitud</a>
+                                                </li>
+                                                <li class="divider"></li>
+                                                <li>
+                                                    <a href="#" ng-if="solicitud.estado==1">Editar solicitud</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-if="solicitud.estado==3">Realizar descargo</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-if="solicitud.estado==4">Continuar descargo</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-if="solicitud.estado==5">Generar comprobante</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+
+                                    <div class="row">
+                                        <div class="col-md-7">Fecha de ingreso: <strong>{{solicitud.fecha}}</strong></div>
+                                        <div class="col-md-5">Estado:
+                                            <span class="badge" ng-if="solicitud.estado==1">BORRADOR</span>
+                                            <span class="badge badge-red" ng-if="solicitud.estado==2">NO FAVORABLE</span>
+                                            <span class="badge badge-secondary" ng-if="solicitud.estado==3">APROBADA</span>
+                                            <span class="badge badge-warning" ng-if="solicitud.estado==4">DESCARGO PENDIENTE</span>
+                                            <span class="badge badge-info" ng-if="solicitud.estado==5">DESCARGO COMPLETADO</span>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <strong><h4>Unidad Solicitante</h4></strong>
+                                            <div><strong>{{solicitud.centro}}</strong></div>
+                                            <div><strong>{{solicitud.dep}}</strong></div>
+                                            <div><strong>{{solicitud.unidad}}</strong></div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <strong><h4>Detalles del Oficio</h4></strong>
+                                            <div>Solicitante:<strong>{{solicitud.nombre}}</strong></div>
+                                        </div>
+                                        <div class="col-md-7">Documento: <strong>{{solicitud.numDoc}}</strong></div>
+                                        <div class="col-md-5">Fecha: <strong>{{solicitud.fechaDoc}}</strong></div>
+                                    </div>
+                                    <br>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="col-md-6">
+                                        <p>Cant. de bienes:</p>
+                                        <span><strong>{{solicitud.bienes.length}}</strong></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="">Valor de adquisición:</p>
+                                        <span class="fr"><strong>L. {{valorTotal($index)}}</strong></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Modal 6 (Long Modal)-->
+    <div class="modal fade" id="modal-6">
+        <div class="modal-dialog" id="modal-descargo">
+            <!-- Colored panel, remember to add "panel-color" before applying the color -->
+            <div class="panel panel-color panel-success">
+                <!-- Add class "collapsed" to minimize the panel -->
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{mi_app[value].modalTitle}}</h3>
+
+                    <div class="panel-options">
+                        <button id="cerrarModalDescargo" type="button" ng-click="modalDescargo=0;mostrarModal2(tabSelected)" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                    <!--Inicio del form-modal6-->
+                    <!--Requiere código jqueryReady.js-->
+
+                    <form role="forl" id="rootwizard" class="form-wizard validate" novalidate>
+
+                        <ul class="tabs">
+                            <li class="active">
+                                <a id="tabUnidad" href="#fwv-1" data-toggle="tab">Unidad</a>
+                            </li>
+                            <li>
+                                <a href="#fwv-2" data-toggle="tab">Empleado</a>
+                            </li>
+                            <li>
+                                <a href="#fwv-3" data-toggle="tab">Bienes</a>
+                            </li>
+                            <li>
+                                <a href="#fwv-4" data-toggle="tab">Resumen</a>
+                            </li>
+                        </ul>
+
+                        <div class="progress-indicator">
+                            <span></span>
+                        </div>
+
+                        <div class="tab-content no-margin">
+
+                            <!-- Tabs Content -->
+                            <div class="tab-pane with-bg active" id="fwv-1">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <strong><h4>Detalles de la Unidad Solicitante</h4></strong>
+                                        <div class="row">
+
+                                            <div class="form-group col-md-12">
+                                                <span class="bcr">*</span>
+                                                <label class="control-label" for="state">Centro Universitario:</label>
+                                                <select name="test" class="selectboxitForm" ng-model="s.centro" required data-validate="required" data-message-required="Este campo es obligatorio.">
+                                                    <option value="0"> Seleccione...</option>
+                                                     <option value="1">Ciudad Universitaria</option>
+                                                        <option value="2">UNAH Valle de Sula</option>
+                                            </select>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <span class="bcr">*</span>
+                                                <label class="control-label" for="state">Dependencia:</label>
+                                                <select name="test" class="selectboxitForm" ng-model="s.dep" required data-validate="required" data-message-required="Este campo es obligatorio.">
+                                                    <option value="0"> Seleccione...</option>
+                                                <option value="1">Rectoría</option>
+                                                <option value="2">Secretaría Ejecutiva de Administración y Finanzas</option>
+                                              
+                                            </select>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <span class="bcr">*</span>
+                                                <label class="control-label" for="state">Unidad:</label>
+                                                <select name="test" class="selectboxitForm" ng-model="s.unidad" required data-validate="required" data-message-required="Este campo es obligatorio.">
+                                                    <option value="0"> Seleccione...</option>
+                                                <option value="1">Secretaría Ejecutiva de Administración y Finanzas</option>
+                                                <option value="2">Departamento de Bienes Nacionales</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <strong><h4>Detalles del Oficio</h4></strong>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <span class="bcr">*</span>
+                                                    <label class="control-label" for="oficioRef">Número de documento:</label>
+                                                    <!--data-validate="required,minlength[3],maxlength[25]"-->
+                                                    <input class="form-control" name="oficioRef" id="oficioRef" ng-model="s.numDoc" data-message-required="Este campo es obligatorio." data-message-minlength="Ingrese al menos 3 caracteres." data-message-maxlength="Ingrese un máximo de 25 caracteres.." />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <span class="bcr">*</span>
+                                                    <label class="control-label" for="fechaOficio">Fecha:</label>
+                                                    <!--data-validate="required"-->
+                                                    <input class="form-control" name="fechaOficio" id="fechaOficio" ng-model="s.fechaDoc" data-mask="date" placeholder="" data-message-required="Este campo es obligatorio." />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane with-bg" id="fwv-2">
+
+                                <strong><h4><span class="bcr">*</span>Información del empleado</h4></strong>
+                                <div class="form-group">
+                                    <label class="control-label" for="tagsinput-1"></label>
+                                    <!--Requiere código jqueryReady.js-->
+
+                                    <div class="input-group col-md-6">
+                                        <input type="text" class="form-control" id="typeahead-1" ng-model="s.nombre" placeholder="Nombre o número del empleado:" data-validate="required" />
+                                        <span class="input-group-btn">
+                                          <button class="btn btn-success" >
+                                            <i class="fa-search"></i>
+                                            <span>Buscar</span>
+                                        </button>
+                                        </span>
+                                    </div><br>
+
+                                    <div class="row">
+                                        <div class="user-info">
+                                            <div class="user-image col-md-3 col-sm-4">
+                                                <a href="#">
+                                                    <img src="assets/images/user-2.png" class="img-responsive img-circle" />
+                                                </a>
+                                            </div>
+
+                                            <div class="user-details col-md-9 col-sm-8">
+                                                <br>
+                                                <strong><h3>Nombre del empleado</h3></strong>
+                                                <h4 class="user-title">Cargo</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <p></p>
+                            </div>
+
+                            <div class="tab-pane with-bg" id="fwv-3">
+                                <div class="row">
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <strong>Buscar bienes por:</strong>
+                                            <p>
+                                                <label class="radio-inline">
+												<input type="radio" name="radio-2" ng-model="busqBienes" value="1" class="cbr cbr-blue">
+												    Número de inventario
+											    </label>
+                                                <label class="radio-inline">
+												    <input type="radio" name="radio-2" ng-model="busqBienes" value="2" class="cbr cbr-blue">
+												    Número de empleado
+											    </label>
+                                                <label class="radio-inline">
+												    <input type="radio" name="radio-2" class="cbr cbr-blue" ng-model="busqBienes" value="18">
+												    Ubicación
+											    </label>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" ng-if="busqBienes<15">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input type="text" id="inputBusqueda" ng-model="busqOptions.text" ng-keyup="$event.keyCode == 13 && buscarBienes()" class="form-control no-right-border form-focus-green" placeholder="{{searchPlaceholder[busqBienes]}}">
+                                            <span class="input-group-btn">
+                                  <button class="btn btn-success" ng-click="buscarBienes()">
+                                    <i class="fa-search"></i>
+                                    <span>Buscar</span>
+                                            </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" ng-hide="busqBienes!=18">
+
+                                    <!-- requiere codigo jqueryReady.js-->
+
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label" for="state">Centro Universitario:</label>
+                                        <select name="test" class="selectboxitForm">
+                                                <option value="0"> Seleccione...</option>
+                                                 <option value="1">Ciudad Universitaria</option>
+                                                    <option value="2">UNAH Valle de Sula</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label" for="state">Dependencia:</label>
+                                        <select name="test" class="selectboxitForm" data-validate="required" data-message-required="Este campo es obligatorio.">
+                                                <option value="0"> Seleccione...</option>
+                                            <option value="1">Rectoría</option>
+                                            <option value="2">Secretaría Ejecutiva de Administración y Finanzas</option>
+                                          
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label" for="state">Unidad:</label>
+                                        <select name="test" class="selectboxitForm" data-validate="required" data-message-required="Este campo es obligatorio.">
+                                            <option value="0"> Seleccione...</option>
+                                            <option value="1">Secretaría Ejecutiva de Administración y Finanzas</option>
+                                            <option value="2">Departamento de Bienes Nacionales</option>
+                                          
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label" for="state">Ubicación:</label>
+                                        <select name="test" class="selectboxitForm">
+                                                <option value="0"> Seleccione...</option>
+                                          <option value="1">Ubicación 1</option>
+                                          <option value="2">Ubicación 2</option>
+                                      </select>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="row" ng-hide="selected">
+                                    <br>
+                                    <div class="col-md-12">
+                                        <div class="alert alert-warning">
+                                            <strong>No hay resultados</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+
+                                    <div class="col-md-12" ng-hide="bienes.length==0">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p>Seleccione los bienes a descargar</p>
+                                            </div>
+                                        </div>
+
+                                        <table class="table table-bordered table-striped table-condensed table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>N° Inv.</th>
+                                                    <th>Descripción</th>
+                                                    <th>Marca</th>
+                                                    <th>Valor</th>
+                                                    <th>Razón de descargo</th>
+                                                    <th>Obs.</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr ng-repeat="bien in bienes">
+                                                    <td>{{$index + 1}}</td>
+                                                    <th>
+                                                        <span>{{bien.numInv}}</span><br>
+                                                        <span class="badge badge-info" ng-if="bien.numFicha!=''">{{bien.numFicha}}</span>
+
+                                                    </th>
+                                                    <th>
+                                                        <span>{{bien.descripcion}}</span><br>
+                                                        <span>{{bien.color}}</span>
+                                                    </th>
+                                                    <th>
+                                                        <span>{{bien.marca}}</span><br>
+                                                        <span>{{bien.modelo}}</span>
+                                                    </th>
+                                                    <th>L. <span class="fr">{{bien.valor}}</span></th>
+                                                    <th><select name="" id="" ng-model="bien.razon">
+                                                                <option disabled value="0">Seleccione...</option>
+                                                                <option value="1">Inservible</option>
+                                                                <option value="2">Obsoleto</option>
+                                                                <option value="3">Excedente</option>
+                                                            </select></th>
+                                                    <th><input type="text" ng-model="bien.obs"></th>
+                                                    <th>
+                                                        <button class="btn btn-icon btn-blue btn-r" ng-if="bien.estado==0" ng-click="agregarBien($index)">
+                                                                    <i class="fa-plus"></i>
+                                                                </button>
+                                                        <button class="btn btn-icon btn-success btn-r" ng-if="bien.estado==1">
+                                                                    <i class="fa-check"></i>
+                                                                </button>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+
+                                    <div class="col-md-12" ng-hide="bienesArray.length==0">
+                                        <div class="col-md-6">
+                                            <p>Bienes agregados:</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button id="" class="btn btn-blue btn-icon btn-icon-standalone btn-xs fr">
+                                                        <i class="fa-check-square"></i>
+                                                        <span>{{bienesArray.length}}</span>
+                                                      </button>
+                                        </div>
+                                        <table class="table table-bordered table-striped table-condensed table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>N° Inv.</th>
+                                                    <th>Descripción</th>
+                                                    <th>Marca</th>
+                                                    <th>Valor</th>
+                                                    <th>Razón de descargo</th>
+                                                    <th>Obs.</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr ng-repeat="bien in bienesArray">
+                                                    <td>{{$index + 1}}</td>
+                                                    <th>
+                                                        <span>{{bien.numInv}}</span><br>
+                                                        <span class="badge badge-info" ng-if="bien.numFicha!=''">{{bien.numFicha}}</span>
+
+                                                    </th>
+                                                    <th>
+                                                        <span>{{bien.descripcion}}</span><br>
+                                                        <span>{{bien.color}}</span>
+                                                    </th>
+                                                    <th>
+                                                        <span>{{bien.marca}}</span><br>
+                                                        <span>{{bien.modelo}}</span>
+                                                    </th>
+                                                    <th>L. <span class="fr">{{bien.valor}}</span></th>
+                                                    <th><select name="" id="" ng-model="bien.razon">
+                                                                <option disabled value="0">Seleccione...</option>
+                                                                <option value="1">Inservible</option>
+                                                                <option value="2">Obsoleto</option>
+                                                                <option value="3">Excedente</option>
+                                                            </select></th>
+                                                    <th><input type="text" ng-model="bien.obs"></th>
+                                                    <th>
+                                                        <button class="btn btn-icon btn-red btn-r" ng-click="quitarBien($index)">
+                                                                    <i class="fa-remove"></i>
+                                                                </button>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="tab-pane with-bg" id="fwv-4">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <strong><h4>Detalles de la Unidad Solicitante</h4></strong>
+                                        <div>Centro universitario: <strong>{{centrosr[s.centro-1]}}</strong></div>
+                                        <div>Dependencia: <strong>{{dependencia[s.dep-1]}}</strong></div>
+                                        <div>Unidad: <strong>{{unidad[s.unidad-1]}}</strong></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong><h4>Detalles del Oficio</h4></strong>
+                                        <div>Solicitante: <strong>{{s.nombre}}</strong></div>
+                                        <div>Número de documento: <strong>{{s.numDoc}}</strong></div>
+                                        <div>Fecha: <strong>{{s.fechaDoc}}</strong></div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table table-bordered table-striped table-condensed table-hover" ng-if="bienesArray.length>0">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>N° Inv.</th>
+                                                    <th>Descripción</th>
+                                                    <th>Marca</th>
+                                                    <th>Valor</th>
+                                                    <th>Razón de descargo</th>
+                                                    <th>Obs.</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr ng-repeat="bien in bienesArray">
+                                                    <td>{{$index + 1}}</td>
+                                                    <th>
+                                                        <span>{{bien.numInv}}</span><br>
+                                                        <span class="badge badge-info" ng-if="bien.numFicha!=''">{{bien.numFicha}}</span>
+
+                                                    </th>
+                                                    <th>
+                                                        <span>{{bien.descripcion}}</span><br>
+                                                        <span>{{bien.color}}</span>
+                                                    </th>
+                                                    <th>
+                                                        <span>{{bien.marca}}</span><br>
+                                                        <span>{{bien.modelo}}</span>
+                                                    </th>
+                                                    <th>L. <span class="fr">{{bien.valor}}</span></th>
+                                                    <th><select name="" id="" ng-model="bien.razon">
+                                                        <option disabled value="0">Seleccione...</option>
+                                                        <option value="1">Inservible</option>
+                                                        <option value="2">Obsoleto</option>
+                                                        <option value="3">Excedente</option>
+                                                    </select></th>
+                                                    <th><input type="text" ng-model="bien.obs"></th>
+                                                    <th>
+                                                        <button class="btn btn-icon btn-red btn-r" ng-click="quitarBien($index)">
+                                                            <i class="fa-remove"></i>
+                                                        </button>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="col-md-6">
+                                            <p>Cant. de bienes: <strong>{{bienesArray.length}}</strong></p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="fr">Valor de adquisición: <strong>L. {{total()}}</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="field-7" class="control-label">Observaciones generales:</label>
+
+                                            <textarea class="form-control autogrow" id="field-7" ng-model="s.obs" placeholder=""></textarea>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="btn-group fr">
+                                            <button type="button" class="btn btn-blue dropdown-toggle" data-toggle="dropdown">
+                                  Guardar como <span class="caret"></span>
+                                </button>
+                                            <ul class="dropdown-menu dropdown-blue drop-top" role="menu">
+                                                <li>
+                                                    <a href="#" ng-click="guardarSolicitud(3)" data-dismiss="modal">Aprobada</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-click="guardarSolicitud(1)">Borrador</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" ng-click="guardarSolicitud(2)">No favorable</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <!-- Tabs Pager -->
+                            <ul class="pager wizard">
+                                <li class="previous">
+                                    <!--<a href="#"><i class="entypo-left-open"></i> Previous</a>-->
+                                    <a href="#" class="btn btn-icon entypo-left-open">
+                                        <i class="fa-chevron-left"></i>
+                                        <span> Regresar</span>
+                                    </a>
+                                </li>
+
+                                <li class="next">
+                                    <!--<a href="#">Next <i class="entypo-right-open"></i></a>-->
+                                    <a href="#" class="btn btn-icon entypo-right-open">
+                                        <span>Continuar </span>
+                                        <i class="fa-chevron-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+    </div>
+    </div>
+
+    <!-- Imported styles on this page -->
+    <link rel="stylesheet" href="assets/js/multiselect/css/multi-select.css">
+
+    <!-- Bottom Scripts -->
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="app/js/angular/angular.min.js"></script>
+    <script src="app/js/angular-ui/angular-ui-router.min.js"></script>
+    <script src="app/js/angular-ui/ui-bootstrap-tpls-0.11.2.min.js"></script>
+    <script src="app/js/angular/angular-cookies.min.js"></script>
+    <script src="app/js/oc-lazyload/ocLazyLoad.min.js"></script>
+    <script src="app/js/angular-fullscreen.js"></script>
+    <script src="assets/js/typeahead.bundle.js"></script>
+    <script src="assets/js/select2/select2.min.js"></script>
+    <script src="assets/js/jquery-ui/jquery-ui.min.js"></script>
+    <script src="assets/js/TweenMax.min.js"></script>
+    <script src="assets/js/resizeable.js"></script>
+    <script src="assets/js/joinable.js"></script>
+    <script src="assets/js/xenon-api.js"></script>
+    <script src="assets/js/xenon-toggles.js"></script>
+
+    <!-- Imported scripts on this page -->
+    <script src="assets/js/jquery-validate/jquery.validate.min.js"></script>
+    <script src="assets/js/inputmask/jquery.inputmask.bundle.js"></script>
+    <script src="assets/js/formwizard/jquery.bootstrap.wizard.min.js"></script>
+    <script src="assets/js/datepicker/bootstrap-datepicker.js"></script>
+    <script src="assets/js/multiselect/js/jquery.multi-select.js"></script>
+    <script src="assets/js/jquery-ui/jquery-ui.min.js"></script>
+    <script src="assets/js/selectboxit/jquery.selectBoxIt.min.js"></script>
+
+    <!-- App -->
+    <script src="app/js/app.js"></script>
+    <script src="app/js/controllers.js"></script>
+    <script src="app/js/directives.js"></script>
+    <script src="app/js/factory.js"></script>
+    <script src="app/js/services.js"></script>
+
+    <!-- JavaScripts initializations and stuff -->
+    <script src="assets/js/xenon-custom.js"></script>
+
+    <!-- Mi-app (archivos de los nuevos modulos)-->
+    <script src="mi-app/js/mi-app.js"></script>
+    <script src="mi-app/js/jqueryReady.js" type="text/javascript"></script>
+
+</body>
+
+</html>
