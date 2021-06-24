@@ -227,6 +227,7 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
     $scope.dependencia = ["Rectoría", "Secretaría Ejecutiva de Administración y Finanzas"];
     $scope.unidad = ["Secretaría Ejecutiva de Administración y Finanzas", "Departamento de Bienes Nacionales"];
     $scope.selected = 1;
+    $scope.razond = ["", "Inservible", "Obsoleto", "Excedente"];
     $scope.totalBienes = [
         { numInv: "E-1234", descripcion: "CPU", numFicha: "1234", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 0, numEmpleado: 1 },
         { numInv: "E-1235", descripcion: "CPU", numFicha: "1235", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 0, numEmpleado: 1 },
@@ -297,7 +298,7 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
             centro: "CIUDAD UNIVERSITARIA",
             dep: "SECRETARIA EJECUTIVA DE ADMINISTRACION Y FINANZAS",
             unidad: "DIRECCION DE COMPRAS",
-            numDoc: "234-2021",
+            numDoc: "DRC 0234-2021",
             fechaDoc: "01/01/2021",
             nombre: "JOSE RODRIGUEZ CASTELLANOS",
             numEmpleado: "1",
@@ -396,6 +397,8 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
     //Muestra el modal adecuado segun el modulo y la tab seleccionada
     $scope.mostrarModal2 = function(index) {
 
+        $scope.resetBusqOptions();
+
         if ($scope.value == 0 && index == 1) {
             jQuery('#modal-6').modal('show', {
                 backdrop: 'static'
@@ -449,6 +452,7 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
 
     //Al cambiar de tipo de busqueda limpia el texto del select
     $scope.resetBusqOptions = function() {
+        $scope.selected = 1;
         $scope.busqOptions.text = "";
     }
 

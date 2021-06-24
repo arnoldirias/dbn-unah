@@ -207,6 +207,19 @@
                             </optgroup>
                           </select>
                         </div>
+
+                    </div>
+
+                    <div class="row" ng-if="tipoBusqueda>=15">
+                        <div class="form-group col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                <button class="btn btn-success" ng-click="busqGeneral()">
+                                    <i class="fa-search"></i>
+                                    <span>Buscar</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row" ng-hide="selected">
@@ -323,7 +336,7 @@
                                                             <span>{{bien.modelo}}</span>
                                                         </th>
                                                         <th>L. <span class="fr">{{bien.valor}}</span></th>
-                                                        <th>{{bien.razon}}</th>
+                                                        <th>{{razond[bien.razon]}}</th>
                                                         <th>{{bien.obs}}</th>
                                                     </tr>
                                                 </tbody>
@@ -427,6 +440,78 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered table-striped table-condensed table-hover" ng-if="s_array.length>4">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>N° Solicitud</th>
+                                        <th>Solicitante</th>
+                                        <th>Dependencia</th>
+                                        <th>Unidad</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr ng-repeat="solicitud in s_array">
+                                        <td>{{$index + 1}}</td>
+                                        <th>
+                                            <span>{{solicitud.num}}</span><br>
+                                            <span>
+                                                <span class="badge" ng-if="solicitud.estado==1">BORRADOR</span>
+                                            <span class="badge badge-red" ng-if="solicitud.estado==2">NO FAVORABLE</span>
+                                            <span class="badge badge-secondary" ng-if="solicitud.estado==3">APROBADA</span>
+                                            <span class="badge badge-warning" ng-if="solicitud.estado==4">DESCARGO PENDIENTE</span>
+                                            <span class="badge badge-info" ng-if="solicitud.estado==5">DESCARGO COMPLETADO</span>
+                                            </span>
+
+                                        </th>
+                                        <th>
+                                            <span>{{solicitud.nombre}}</span>
+                                        </th>
+                                        <th>
+                                            <span>{{solicitud.dep}}</span>
+                                        </th>
+                                        <th>{{solicitud.unidad}}</th>
+                                        <th>
+                                            <div class="btn-group rigth-dropdown">
+                                                <button type="button" id="btnDropdown" class="btn dropdown-toggle btn-r" data-toggle="dropdown">
+                                                    <span class="fa-arrow-right"></span>
+                                                </button>
+
+                                                <ul class="dropdown-menu dropdown-blue drop-left" role="menu">
+                                                    <li>
+                                                        <a href="#">Ver más</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Imprimir solicitud</a>
+                                                    </li>
+                                                    <li class="divider"></li>
+                                                    <li>
+                                                        <a href="#" ng-if="solicitud.estado==1">Editar solicitud</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" ng-if="solicitud.estado==3">Realizar descargo</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" ng-if="solicitud.estado==4">Continuar descargo</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" ng-if="solicitud.estado==5">Generar comprobante</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
 
@@ -664,7 +749,18 @@
                                       </select>
                                     </div>
 
+                                </div>
 
+                                <div class="row" ng-if="busqBienes>=15">
+                                    <div class="form-group col-md-6">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                            <button class="btn btn-success" ng-click="buscarBienes()">
+                                                <i class="fa-search"></i>
+                                                <span>Buscar</span>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="row" ng-hide="selected">
