@@ -18,7 +18,9 @@
     border-right-color: #8dc63f;
 }
 
-#modal-descargo {
+#modal-descargo,
+#modal-vermas,
+#modal-editarSolicitud {
     width: 75%;
 }
 
@@ -42,7 +44,8 @@
     background-color: cornflowerblue;
 }
 
-#btnDropdown {
+#btnDropdown,
+#btn_modalvermas {
     background-color: cornflowerblue;
     margin-bottom: -10px;
     margin-top: -10px;
@@ -95,4 +98,25 @@ div.ms-container {
 
 .btn-r {
     border-radius: 30px;
+}
+
+.br15 {
+    border-radius: 15px
+}
+
+.radio-inline+.radio-inline,
+.checkbox-inline+.checkbox-inline {
+    margin-left: 0px;
+}
+
+.radio-inline,
+.checkbox-inline {
+    padding-left: 0px;
+    padding-right: 10px;
+    margin-right: 20px;
+}
+
+.panel-heading {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
 }

@@ -227,39 +227,39 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
     $scope.dependencia = ["Rectoría", "Secretaría Ejecutiva de Administración y Finanzas"];
     $scope.unidad = ["Secretaría Ejecutiva de Administración y Finanzas", "Departamento de Bienes Nacionales"];
     $scope.selected = 1;
+    $scope.indexSolicitud = 0;
     $scope.razond = ["", "Inservible", "Obsoleto", "Excedente"];
     $scope.totalBienes = [
-        { numInv: "E-1234", descripcion: "CPU", numFicha: "1234", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 0, numEmpleado: 1 },
-        { numInv: "E-1235", descripcion: "CPU", numFicha: "1235", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 0, numEmpleado: 1 },
-        { numInv: "E-1236", descripcion: "CPU", numFicha: "1236", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 0, numEmpleado: 2 },
-        { numInv: "E-1237", descripcion: "CPU", numFicha: "", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 0, numEmpleado: 2 },
-        { numInv: "E-1238", descripcion: "CPU", numFicha: "1238", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 0, numEmpleado: 2 },
-        { numInv: "E-1239", descripcion: "CPU", numFicha: "1239", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 0, numEmpleado: 2 }
+        { numInv: "E-1234", descripcion: "CPU", numFicha: "1234", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 0, numEmpleado: 1, centro: 1, dep: 2, unidad: 1 },
+        { numInv: "E-1235", descripcion: "CPU", numFicha: "1235", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 0, numEmpleado: 1, centro: 1, dep: 2, unidad: 1 },
+        { numInv: "E-1236", descripcion: "CPU", numFicha: "1236", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 0, numEmpleado: 2, centro: 1, dep: 2, unidad: 1 },
+        { numInv: "E-1237", descripcion: "CPU", numFicha: "", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 0, numEmpleado: 2, centro: 1, dep: 2, unidad: 1 },
+        { numInv: "E-1238", descripcion: "CPU", numFicha: "1238", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 0, numEmpleado: 2, centro: 1, dep: 2, unidad: 1 },
+        { numInv: "E-1239", descripcion: "CPU", numFicha: "1239", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 0, numEmpleado: 2, centro: 1, dep: 2, unidad: 1 }
     ];
-    //solicitudes guardadas
-    $scope.solicitudes = [];
 
     //nueva solicitud
     $scope.s = { centro: 0, dep: 0, unidad: 0, numDoc: "", fechaDoc: "", nombre: "", numEmpleado: "", bienes: [], obs: "", estado: 0 };
     //reset solicitud
     $scope.s2 = { centro: 0, dep: 0, unidad: 0, numDoc: "", fechaDoc: "", nombre: "", numEmpleado: "", bienes: [], obs: "", estado: 0 };
 
+    //solicitudes guardadas
+    $scope.solicitudes = [];
     //Solicitudes encontradas en la busqueda 
     $scope.s_array = [];
-    //Solicitudes encontradas en la busqueda 
+    //Solicitudes data 
     $scope.totalSolicitudes = [{
             num: "1-2021",
-            centro: "CIUDAD UNIVERSITARIA",
-            dep: "SECRETARIA EJECUTIVA DE ADMINISTRACION Y FINANZAS",
-            unidad: "DIRECCION DE COMPRAS",
+            centro: 1,
+            dep: 2,
+            unidad: 1,
             numDoc: "DRC 0234-2021",
             fechaDoc: "01/01/2021",
             nombre: "JOSE RODRIGUEZ CASTELLANOS",
             numEmpleado: "1",
             bienes: [
                 { numInv: "E-1234", descripcion: "CPU", numFicha: "1234", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 1 },
-                { numInv: "E-1235", descripcion: "CPU", numFicha: "1235", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 1 },
-                { numInv: "E-1236", descripcion: "CPU", numFicha: "1236", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 1 }
+                { numInv: "E-1235", descripcion: "CPU", numFicha: "1235", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 1 }
             ],
             obs: "",
             estado: 1,
@@ -267,9 +267,9 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         },
         {
             num: "2-2021",
-            centro: "CIUDAD UNIVERSITARIA",
-            dep: "SECRETARIA EJECUTIVA DE ADMINISTRACION Y FINANZAS",
-            unidad: "DIRECCION DE COMPRAS",
+            centro: 2,
+            dep: 2,
+            unidad: 1,
             numDoc: "DRC 0234-2021",
             fechaDoc: "01/01/2021",
             nombre: "JOSE RODRIGUEZ CASTELLANOS",
@@ -281,42 +281,57 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         },
         {
             num: "3-2021",
-            centro: "CIUDAD UNIVERSITARIA",
-            dep: "SECRETARIA EJECUTIVA DE ADMINISTRACION Y FINANZAS",
-            unidad: "DIRECCION DE COMPRAS",
+            centro: 1,
+            dep: 2,
+            unidad: 2,
             numDoc: "DRC 0234-2021",
             fechaDoc: "01/01/2021",
             nombre: "JOSE RODRIGUEZ CASTELLANOS",
             numEmpleado: "2",
-            bienes: [],
+            bienes: [
+                { numInv: "E-1234", descripcion: "CPU", numFicha: "1234", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 1 },
+                { numInv: "E-1235", descripcion: "CPU", numFicha: "1235", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 1 },
+                { numInv: "E-1238", descripcion: "CPU", numFicha: "1235", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 1 },
+                { numInv: "E-1239", descripcion: "CPU", numFicha: "1235", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 1 }
+
+            ],
             obs: "",
             estado: 3,
             fecha: "10/01/2021"
         },
         {
             num: "4-2021",
-            centro: "CIUDAD UNIVERSITARIA",
-            dep: "SECRETARIA EJECUTIVA DE ADMINISTRACION Y FINANZAS",
-            unidad: "DIRECCION DE COMPRAS",
+            centro: 1,
+            dep: 2,
+            unidad: 1,
             numDoc: "DRC 0234-2021",
             fechaDoc: "01/01/2021",
             nombre: "JOSE RODRIGUEZ CASTELLANOS",
             numEmpleado: "1",
-            bienes: [],
+            bienes: [
+                { numInv: "E-1234", descripcion: "CPU", numFicha: "1234", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 1 },
+                { numInv: "E-1235", descripcion: "CPU", numFicha: "1235", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 1 },
+            ],
             obs: "",
             estado: 4,
             fecha: "10/01/2021"
         },
         {
             num: "5-2021",
-            centro: "CIUDAD UNIVERSITARIA",
-            dep: "SECRETARIA EJECUTIVA DE ADMINISTRACION Y FINANZAS",
-            unidad: "DIRECCION DE COMPRAS",
+            centro: 1,
+            dep: 2,
+            unidad: 2,
             numDoc: "DRC 0234-2021",
             fechaDoc: "01/01/2021",
             nombre: "JOSE RODRIGUEZ CASTELLANOS",
             numEmpleado: "1",
-            bienes: [],
+            bienes: [
+                { numInv: "E-1234", descripcion: "CPU", numFicha: "1234", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 1 },
+                { numInv: "E-1235", descripcion: "CPU", numFicha: "1235", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 1 },
+                { numInv: "E-1238", descripcion: "CPU", numFicha: "1235", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 1 },
+                { numInv: "E-1239", descripcion: "CPU", numFicha: "1235", marca: "HP", modelo: "PAVILON", color: "BLANCO", valor: 14567.91, razon: 1, obs: "", estado: 1 }
+
+            ],
             obs: "",
             estado: 5,
             fecha: "10/01/2021"
@@ -377,11 +392,43 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         $scope.bienesArray = [];
         $("#tabUnidad").click();
         cerrarModalDescargo.click();
+        toastr.success('<i class="fa-file-text br15"></i> Número de solicitud: <strong>{{result.data}}</strong><br> Notificación enviada a: <br><i class="fa fa-envelope"></i> empleado@unah.edu.hn',
+            'Solicitud guardada con éxito', {
+                "positionClass": "toast-bottom-right",
+                "showDuration": "4000",
+                "hideDuration": "1000",
+                "timeOut": "10000"
+            });
+    }
+
+    //Actualiza los datos de la solicitud guardada como borrador
+    $scope.actualizarSolicitud = function(i) {
+        $scope.s.estado = i;
+        $scope.s.bienes = $scope.bienesArray;
+        $scope.totalSolicitudes[$scope.indexSolicitud] = $scope.s;
+        $scope.s = $scope.s2;
+        $scope.bienesArray = [];
+        $("#tabUnidad").click();
+        btn_modalvermas.click();
+        cerrarModalDescargo.click();
+        toastr.success('<i class="fa-file-text br15"></i> Número de solicitud: <strong>{{result.data}}</strong><br> Notificación enviada a: <br><i class="fa fa-envelope"></i> empleado@unah.edu.hn',
+            'Solicitud editada con éxito', {
+                "positionClass": "toast-bottom-right",
+                "showDuration": "4000",
+                "hideDuration": "1000",
+                "timeOut": "10000"
+            });
     }
 
     //Muestra el modal adecuado segun el modulo
     $scope.mostrarModal = function() {
+
+        $scope.resetBusqOptions();
+
         if ($scope.value == 0) {
+            $scope.s = $scope.s2;
+            $scope.bienesArray = [];
+            $("#tabUnidad").click();
             jQuery('#modal-6').modal('show', {
                 backdrop: 'static'
             });
@@ -400,6 +447,9 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         $scope.resetBusqOptions();
 
         if ($scope.value == 0 && index == 1) {
+            $scope.s = $scope.s2;
+            $scope.bienesArray = [];
+            $("#tabUnidad").click();
             jQuery('#modal-6').modal('show', {
                 backdrop: 'static'
             });
@@ -510,7 +560,7 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         $scope.s_array = [];
 
         //numEmpleado
-        if ($scope.tipoBusqueda == 2) {
+        if (($scope.value == 0) && ($scope.tipoBusqueda == 2)) {
             for (var index = 0; index < $scope.totalSolicitudes.length; index++) {
                 if ($scope.busqOptions.text == $scope.totalSolicitudes[index].numEmpleado) {
                     $scope.s_array.push($scope.totalSolicitudes[index]);
@@ -521,7 +571,7 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         }
 
         //Numero de solicitud
-        if ($scope.tipoBusqueda == 3) {
+        if (($scope.value == 0) && ($scope.tipoBusqueda == 3)) {
             for (var index = 0; index < $scope.totalSolicitudes.length; index++) {
                 if ($scope.busqOptions.text == $scope.totalSolicitudes[index].num) {
                     $scope.s_array.push($scope.totalSolicitudes[index]);
@@ -533,7 +583,7 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         }
 
         //Numero de oficio
-        if ($scope.tipoBusqueda == 4) {
+        if (($scope.value == 0) && ($scope.tipoBusqueda == 4)) {
             for (var index = 0; index < $scope.totalSolicitudes.length; index++) {
                 if ($scope.busqOptions.text == $scope.totalSolicitudes[index].numDoc) {
                     $scope.s_array.push($scope.totalSolicitudes[index]);
@@ -547,6 +597,33 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
 
 
 
+    }
+
+    $scope.$watchCollection('s', function(a, b) {
+        console.log(a);
+        console.log(b);
+    });
+
+    $scope.editarSolicitud = function(i) {
+        $scope.indexSolicitud = i;
+        $scope.s = $scope.s_array[$scope.indexSolicitud];
+        $scope.bienesArray = $scope.s_array[$scope.indexSolicitud].bienes;
+        $scope.resetBusqOptions();
+        $("#btn_modalvermas").click();
+
+        jQuery('#modal-edicionSolicitud').modal('show', {
+            backdrop: 'static'
+        });
+    }
+
+    $scope.modalVermas = function(i) {
+        $scope.indexSolicitud = i;
+        $scope.s = $scope.s_array[$scope.indexSolicitud];
+        $scope.bienesArray = $scope.s_array[$scope.indexSolicitud].bienes;
+
+        jQuery('#modalVermas').modal('show', {
+            backdrop: 'static'
+        });
     }
 
 });
