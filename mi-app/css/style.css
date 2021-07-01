@@ -20,7 +20,9 @@
 
 #modal-descargo,
 #modal-vermas,
-#modal-editarSolicitud {
+#modal-editarSolicitud,
+#modalRecepcion,
+#modalComprobante {
     width: 75%;
 }
 

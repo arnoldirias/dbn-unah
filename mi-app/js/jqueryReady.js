@@ -60,4 +60,11 @@ jQuery(document).ready(function($) {
             $(this).data('ttTypeahead').dropdown.$menu.perfectScrollbar('update');
         });
 
+    toastr.success('Números de solicitud: 00115012021, 00215012021, 00316012021, 00417012021, 00518012021<br> Oficio: DRC-0234-2021<br> Empleado: 1, 2<br>Bienes: E-1234, E-1235, E-1236, E-1237, E-1238, E-1239', +
+        'Datos de prueba modulo de descargo', {
+            "positionClass": "toast-bottom-right",
+            "showDuration": "4000",
+            "hideDuration": "1000",
+            "timeOut": "10000"
+        });
 });
