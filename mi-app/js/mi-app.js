@@ -80,7 +80,6 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         anio: 0,
         estado: 0,
         razon: 0
-
     }
 
     //Busqueda general
@@ -99,7 +98,7 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         { description: "Ubicación", value: 18, varTxt: "ubicacion" }
     ];
     $scope.tableSearch = [
-        //Descargo: 0.Busqueda 2.Reportes
+        //Descargo: 0.Busqueda 2.Reportes 3. Graficos
         [{
                 hide: false,
                 description: "Buscar solicitud de descargo por:",
@@ -121,7 +120,12 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
                 unidad: true
             },
             {
-                hide: true
+                hide: false,
+                description: "",
+                value: 15,
+                centro: true,
+                dep: true,
+                unidad: true
             }
         ],
         //Propiedad perdida: 0.Busqueda 2.Reportes
@@ -793,14 +797,23 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         }
     }
 
-    $scope.verFiltroDescargo = function() {
-        return !(($scope.value == 0) && ($scope.tabSelected == 2));
+    $scope.verFiltroDescargo = function(i) {
+        if (i == 0) {
+            return !(($scope.value == 0) && ($scope.tabSelected == 2));
+        } else if (i == 1) {
+            return !(($scope.value == 0) && ($scope.tabSelected == 2 || $scope.tabSelected == 3))
+        }
+
+        return !(($scope.value == 0) && ($scope.tabSelected == 3));
     }
 
     $scope.generarReporte = function(i) {
         if ($scope.value == 0) {
             if (i == 0) {
                 window.open("https://drive.google.com/file/d/1XuUwQiHHdBx4_r_8FNKDLbp-lnB0oV0D/view?usp=sharing", '_blank');
+            }
+            if (i == 1) {
+                window.open("https://drive.google.com/file/d/1fB_c3X04f0fVuBP2S9dVYDUBk2rxzO2j/view?usp=sharing", '_blank');
             }
         }
 

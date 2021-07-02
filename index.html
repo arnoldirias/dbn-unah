@@ -22,6 +22,7 @@
 
     <!-- ##Nuevos estilos-->
     <link rel="stylesheet" href="mi-app/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.0/dist/chart.min.js" type="text/javascript"></script>
 
     <script src="assets/js/jquery-1.11.1.min.js"></script>
     <script>
@@ -154,7 +155,7 @@
                             <label class="control-label" for="state">Centro Universitario:</label>
                             <select name="test" class="selectboxitForm" ng-model="busqOptions.centro">
                                 <option value="0"> Seleccione...</option>
-                                <option value="1">Ciudad Universitaria</option>
+                                <option value="1" ng-selected="true">Ciudad Universitaria</option>
                                 <option value="2">UNAH Valle de Sula</option>
                             </select>
                         </div>
@@ -186,11 +187,11 @@
                           </select>
                         </div>
 
-                        <div class="form-group col-md-6" ng-hide="verFiltroDescargo()">
+                        <div class="form-group col-md-6" ng-hide="verFiltroDescargo(1)">
                             <div class="row">
                                 <div class="col-md-3">
                                     <label class="control-label" for="state">Año:</label>
-                                    <select name="test" class="selectboxit" ng-model="busqOptions.anio">
+                                    <select name="test" class="selectboxit" ng-model="busqOptions.anio" id="year">
                                     <option value="0">Todos</option>
                                     <option value="2021">2021</option>
                                     <option value="2022">2022</option>
@@ -198,7 +199,7 @@
                                 </div>
                                 <div class="col-md-5">
                                     <label class="control-label" for="state">Tipo de solicitud:</label>
-                                    <select name="test" class="selectboxit" ng-model="busqOptions.estado">
+                                    <select name="test" class="selectboxit" ng-model="busqOptions.estado" id="estadoSolicitud">
                                     <option value="0">Todos</option>
                                     <option value="1">Borradores</option>
                                     <option value="2">No favorables</option>
@@ -222,10 +223,10 @@
 
                     <!--##Busqueda Button Buscar-->
                     <div class="row" ng-if="tipoBusqueda>=15">
-                        <div class="form-group col-md-6" ng-hide="!verFiltroDescargo()">
+                        <div class="form-group col-md-6" ng-hide="!verFiltroDescargo(1)">
                             <div class="input-group">
                                 <span class="input-group-btn">
-                                <button class="btn btn-success" ng-click="busqGeneral()">
+                                <button class="btn btn-success br15" ng-click="busqGeneral()">
                                     <i class="fa-search"></i><span>Buscar</span>
                                 </button>
                                 </span>
@@ -235,14 +236,14 @@
 
                     <!--##Generar Reporte Modulo Descargo-->
                     <div class="row" ng-if="tipoBusqueda>=15">
-                        <div class="form-group col-md-6" ng-hide="verFiltroDescargo()">
+                        <div class="form-group col-md-6" ng-hide="verFiltroDescargo(0)">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-success">Descargar</button>
-                                <button id="btnDescargar" type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa-download"></i>
+                                <button type="button" class="btn btn-success br15">Descargar</button>
+                                <button id="btnDescargar" type="button" class="btn btn-success dropdown-toggle br15" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-download br15"></i>
                                 </button>
 
-                                <ul class="dropdown-menu dropdown-success" role="menu">
+                                <ul class="dropdown-menu dropdown-success br15" role="menu">
                                     <li><a href="#" ng-click="generarReporte(1)">Documento PDF</a></li>
                                     <li><a href="#" ng-click="generarReporte(0)">Hoja de cálculo (EXCEL)</a></li>
                                 </ul>
@@ -263,7 +264,7 @@
                     -->
 
                     <!--##Panel Solicitud de descargo (1 solicitud)-->
-                    <div class="row" ng-if="s_array.length==1">
+                    <div class="row" ng-if="s_array.length==1" ng-hide="value!=0 || tabSelected !=0">
                         <div class="col-md-12">
                             <div class="panel panel-color panel-success br15">
                                 <div class="panel-heading">
@@ -273,7 +274,7 @@
                                             <button type="button" id="btnDropdown" class="btn dropdown-toggle" data-toggle="dropdown">
                                                 <span class="fa-ellipsis-v"></span>
                                             </button>
-                                            <ul class="dropdown-menu dropdown-blue drop-left" role="menu">
+                                            <ul class="dropdown-menu dropdown-blue drop-left br15" role="menu">
                                                 <li><a ng-click="generarSolicitud()">Imprimir solicitud</a></li>
                                                 <li><a href="#" ng-if="s_array[0].estado==1" ng-click="editarSolicitud(0)">Editar solicitud</a></li>
                                                 <li><a href="#" ng-if="s_array[0].estado==3" ng-click="modalRecepcion(0)">Realizar descargo</a></li>
@@ -367,7 +368,7 @@
                     </div>
 
                     <!--##Panel Solicitud de descargo (1-4 solicitudes)-->
-                    <div class="row" ng-if="s_array.length>1">
+                    <div class="row" ng-if="s_array.length>1" ng-hide="value!=0 || tabSelected !=0">
                         <div class="col-md-6" ng-if="s_array.length<5" ng-repeat="solicitud in s_array">
                             <div class="panel panel-color panel-success br15">
                                 <div class="panel-heading">
@@ -377,7 +378,7 @@
                                             <button type="button" id="btnDropdown" class="btn dropdown-toggle" data-toggle="dropdown">
                                                 <span class="fa-ellipsis-v"></span>
                                             </button>
-                                            <ul class="dropdown-menu dropdown-blue drop-left" role="menu">
+                                            <ul class="dropdown-menu dropdown-blue drop-left br15" role="menu">
                                                 <li><a href="#" ng-click="modalVermas($index)">Ver más</a></li>
                                                 <li><a ng-click="generarSolicitud()">Imprimir solicitud</a></li>
                                                 <li><a href="#" ng-if="solicitud.estado==1" ng-click="editarSolicitud($index)">Editar solicitud</a></li>
@@ -434,7 +435,7 @@
                     </div>
 
                     <!--##Table Solicitudes de descargo (>4 solicitudes)-->
-                    <div class="row">
+                    <div class="row" ng-hide="value!=0 || tabSelected !=0">
                         <div class="col-md-12">
                             <table class="table table-bordered table-striped table-condensed table-hover" ng-if="s_array.length>4">
                                 <thead>
@@ -472,6 +473,382 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-12" ng-if="!verFiltroDescargo(2)" ng-hide="busqOptions.anio>0 || busqOptions.estado>0">
+                            <canvas id="myChartDescargo3" width="400" height="150"></canvas >
+                            <script>
+                                var ctx4 = document.getElementById('myChartDescargo3').getContext('2d');
+                                var myChart = new Chart(ctx4, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: ['2020', '2021', '2022'],
+                                        datasets: [{
+                                            label: "Borradores",
+                                            data: [12, 9, 0],
+                                            backgroundColor: [
+                                                'rgba(255, 99, 132, 0.9)',
+                                                'rgba(255, 99, 132, 0.9)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(255, 99, 132, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        },
+                                        {
+                                            label: "No favorables",
+                                            data: [5, 8, 0],
+                                            backgroundColor: [
+                                                'rgba(54, 162, 235, 0.9)',
+                                                'rgba(54, 162, 235, 0.9)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(54, 162, 235, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        },
+                                        {
+                                            label: "Aprobadas",
+                                            data: [7, 19, 0],
+                                            backgroundColor: [
+                                            'rgba(255, 206, 86, 0.9)',
+                                            'rgba(255, 206, 86, 0.9)'
+                                            ],
+                                            borderColor: [
+                                            'rgba(255, 206, 86, 1)',
+                                            'rgba(255, 206, 86, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        },
+                                        {
+                                            label: "Descargos pendientes",
+                                            data: [0, 3, 0],
+                                            backgroundColor: [
+                                            'rgba(75, 192, 192, 0.9)',
+                                            'rgba(75, 192, 192, 0.9)'
+                                            ],
+                                            borderColor: [
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(75, 192, 192, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        },
+                                        {
+                                            label: "Descargos completados",
+                                            data: [77, 49, 0],
+                                            backgroundColor: [
+                                                'rgba(153, 102, 255, 0.9)',
+                                                'rgba(153, 102, 255, 0.9)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(153, 102, 255, 1)',
+                                                'rgba(153, 102, 255, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        }
+                                    ]
+                                    },
+                                    options: {
+                                        indexAxis: 'x',
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true
+                                            }
+                                        },
+                                        plugins: {
+                                            legend: {
+                                                position: 'top',
+                                            },
+                                        title: {
+                                            display: true,
+                                            text: 'Total de Solicitudes por Categoría y Año'
+                                        }
+                                    }
+                                    }
+                                });
+                            </script>
+                        </div>
+
+                        <div class="col-md-6" ng-if="!verFiltroDescargo(2)" ng-hide="busqOptions.estado>0">
+                            <canvas id="myChartDescargo" width="400" height="300"></canvas>
+                            <script>
+                                var ctx = document.getElementById('myChartDescargo').getContext('2d');
+                                var myChart = new Chart(ctx, {
+                                    type: 'pie',
+                                    data: {
+                                        labels: ['Borradores', 'No favorables', 'Aprobadas', 'Descargos pendientes', 'Descargos completados'],
+                                        datasets: [{
+                                            label: '',
+                                            data: [7, 5, 3, 5, 22],
+                                            backgroundColor: [
+                                                'rgba(255, 99, 132, 0.7)',
+                                                'rgba(54, 162, 235, 0.7)',
+                                                'rgba(255, 206, 86, 0.7)',
+                                                'rgba(75, 192, 192, 0.7)',
+                                                'rgba(153, 102, 255, 0.7)',
+                                                'rgba(255, 159, 64, 0.7)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 206, 86, 1)',
+                                                'rgba(75, 192, 192, 1)',
+                                                'rgba(153, 102, 255, 1)',
+                                                'rgba(255, 159, 64, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        indexAxis: 'y',
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true
+                                            }
+                                        },
+                                        plugins: {
+                                            legend: {
+                                                position: 'top',
+                                            },
+                                            title: {
+                                                display: true,
+                                                text: 'Solicitudes por Categoría'
+                                            }
+                                        }
+                                    }
+                                });
+                            </script>
+                        </div>
+
+                        <div class="col-md-12" ng-if="!verFiltroDescargo(2)" ng-hide="busqOptions.anio>0 || busqOptions.estado==0">
+                            <canvas id="myChartDescargo2" width="400" height="150"></canvas >
+                            <script>
+                                var ctx3 = document.getElementById('myChartDescargo2').getContext('2d');
+                                var myChart = new Chart(ctx3, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: ['2020', '2021', '2022'],
+                                        datasets: [{
+                                            label: '',
+                                            data: [12, 19, 0],
+                                            backgroundColor: [
+                                                'rgba(255, 99, 132, 0.5)',
+                                                'rgba(54, 162, 235, 0.5)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(54, 162, 235, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        indexAxis: 'x',
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true
+                                            }
+                                        },
+                                        plugins: {
+                                            legend: {
+                                                position: 'top',
+                                            },
+                                        title: {
+                                            display: true,
+                                            text: 'Total de Solicitudes por Año'
+                                        }
+                                    }
+                                }
+                                });
+                            </script>
+                        </div>
+
+                        <div class="col-md-6" ng-if="!verFiltroDescargo(2)" ng-hide="busqOptions.anio==0 || busqOptions.estado==0">
+                            <canvas id="myChart" width="400" height="300"></canvas >
+                            <script>
+                                var ctx2 = document.getElementById('myChart').getContext('2d');
+                                var myChart = new Chart(ctx2, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic', ],
+                                        datasets: [{
+                                            label: '',
+                                            data: [12, 19, 3, 5, 2, 3],
+                                            backgroundColor: [
+                                                'rgba(255, 99, 132, 0.5)',
+                                                'rgba(54, 162, 235, 0.5)',
+                                                'rgba(255, 206, 86, 0.5)',
+                                                'rgba(75, 192, 192, 0.5)',
+                                                'rgba(153, 102, 255, 0.5)',
+                                                'rgba(255, 159, 64, 0.5)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 206, 86, 1)',
+                                                'rgba(75, 192, 192, 1)',
+                                                'rgba(153, 102, 255, 1)',
+                                                'rgba(255, 159, 64, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        indexAxis: 'y',
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true
+                                            }
+                                        },
+                                        plugins: {
+                                            legend: {
+                                                position: 'top',
+                                            },
+                                        title: {
+                                            display: true,
+                                            text: "Reporte mensual de solicitudes"
+                                        }
+                                    }
+                                    }
+                                });
+                            </script>
+                        </div>
+
+                        <div class="col-md-6" ng-if="!verFiltroDescargo(2)" ng-hide="busqOptions.razon>0">
+                            <canvas id="myChartDescargo5" width="400" height="300" ng-hide="!(busqOptions.estado ==0 || busqOptions.estado ==4 || busqOptions.estado ==5)"></canvas>
+                            <script>
+                                var ctx5 = document.getElementById('myChartDescargo5').getContext('2d');
+                                var myChart = new Chart(ctx5, {
+                                    type: 'doughnut',
+                                    data: {
+                                        labels: ['Inservibles', 'Obsoletos', 'Excedentes'],
+                                        datasets: [{
+                                            label: '',
+                                            data: [177, 55, 22],
+                                            backgroundColor: [
+                                                'rgba(255, 99, 132, 0.5)',
+                                                'rgba(54, 162, 235, 0.5)',
+                                                'rgba(255, 206, 86, 0.5)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 206, 86, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        indexAxis: 'y',
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true
+                                            }
+                                        },
+                                        plugins: {
+                                            legend: {
+                                                position: 'top',
+                                            },
+                                            title: {
+                                                display: true,
+                                                text: 'Estado de los bienes'
+                                            }
+                                        }
+                                    }
+                                });
+                            </script>
+                        </div>
+
+                        <div class="col-md-12" ng-if="!verFiltroDescargo(2)" ng-hide="busqOptions.razon==0 || busqOptions.anio>0">
+                            <canvas id="myChartDescargo6" width="400" height="150" ng-hide="!(busqOptions.estado ==0 || busqOptions.estado ==4 || busqOptions.estado ==5)"></canvas >
+                            <script>
+                                var ctx6 = document.getElementById('myChartDescargo6').getContext('2d');
+                                var myChart = new Chart(ctx6, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: ['2020', '2021', '2022'],
+                                        datasets: [{
+                                            label: '',
+                                            data: [12, 19, 0],
+                                            backgroundColor: [
+                                                'rgba(255, 99, 132, 0.5)',
+                                                'rgba(54, 162, 235, 0.5)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(54, 162, 235, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        indexAxis: 'x',
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true
+                                            }
+                                        },
+                                        plugins: {
+                                            legend: {
+                                                position: 'top',
+                                            },
+                                        title: {
+                                            display: true,
+                                            text: 'Estado del bien por Año'
+                                        }
+                                    }
+                                }
+                                });
+                            </script>
+                        </div>
+
+                        <div class="col-md-6" ng-if="!verFiltroDescargo(2)" ng-hide="busqOptions.razon==0 || busqOptions.anio==0">
+                            <canvas id="myChartDescargo7" width="400" height="300" ng-hide="!(busqOptions.estado ==0 || busqOptions.estado ==4 || busqOptions.estado ==5)"></canvas >
+                            <script>
+                                var ctx7 = document.getElementById('myChartDescargo7').getContext('2d');
+                                var myChart = new Chart(ctx7, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: [''],
+                                        datasets: [{
+                                            label: '',
+                                            data: [19],
+                                            backgroundColor: [
+                                                'rgba(255, 99, 132, 0.5)',
+                                                'rgba(54, 162, 235, 0.5)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(54, 162, 235, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        indexAxis: 'x',
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true
+                                            }
+                                        },
+                                        plugins: {
+                                            legend: {
+                                                position: 'top',
+                                            },
+                                        title: {
+                                            display: true,
+                                            text: 'Estado del bien'
+                                        }
+                                    }
+                                }
+                                });
+                            </script>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -576,7 +953,7 @@
                                     <div class="input-group col-md-6">
                                         <input type="text" class="form-control" id="typeahead-1" ng-model="s.nombre" placeholder="Nombre o número del empleado:" data-validate="required" />
                                         <span class="input-group-btn">
-                                          <button class="btn btn-success" ><i class="fa-search"></i><span>Buscar</span></button>
+                                          <button class="btn btn-success br15" ><i class="fa-search"></i><span>Buscar</span></button>
                                         </span>
                                     </div><br>
 
@@ -624,7 +1001,7 @@
                                         <div class="input-group">
                                             <input type="text" id="inputBusqueda" ng-model="busqOptions.text" ng-keyup="$event.keyCode == 13 && buscarBienes()" class="form-control no-right-border form-focus-green" placeholder="{{searchPlaceholder[busqBienes]}}">
                                             <span class="input-group-btn">
-                                            <button class="btn btn-success" ng-click="buscarBienes()">
+                                            <button class="btn btn-success br15" ng-click="buscarBienes()">
                                                 <i class="fa-search"></i><span>Buscar</span>
                                             </button>
                                             </span>
@@ -675,7 +1052,7 @@
                                     <div class="form-group col-md-6">
                                         <div class="input-group">
                                             <span class="input-group-btn">
-                                            <button class="btn btn-success" ng-click="buscarBienes()">
+                                            <button class="btn btn-success br15" ng-click="buscarBienes()">
                                                 <i class="fa-search"></i><span>Buscar</span>
                                             </button>
                                         </div>
@@ -881,10 +1258,10 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="btn-group fr">
-                                            <button type="button" class="btn btn-blue dropdown-toggle" data-toggle="dropdown">
+                                            <button type="button" class="btn btn-blue dropdown-toggle br15" data-toggle="dropdown">
                                                 Guardar como <span class="caret"></span>
                                             </button>
-                                            <ul class="dropdown-menu dropdown-blue drop-top" role="menu">
+                                            <ul class="dropdown-menu dropdown-blue drop-top br15" role="menu">
                                                 <li><a href="#" ng-click="guardarSolicitud(3)" data-dismiss="modal">Aprobada</a></li>
                                                 <li><a href="#" ng-click="guardarSolicitud(1)" data-dismiss="modal">Borrador</a></li>
                                                 <li><a href="#" ng-click="guardarSolicitud(2)" data-dismiss="modal">No favorable</a></li>
@@ -1015,7 +1392,7 @@
                                     <div class="input-group col-md-6">
                                         <input type="text" class="form-control" id="typeahead-1" ng-model="s.nombre" placeholder="Nombre o número del empleado:" data-validate="required" />
                                         <span class="input-group-btn">
-                                        <button class="btn btn-success">
+                                        <button class="btn btn-success br15">
                                             <i class="fa-search"></i><span>Buscar</span>
                                         </button>
                                         </span>
@@ -1115,7 +1492,7 @@
                                     <div class="form-group col-md-6">
                                         <div class="input-group">
                                             <span class="input-group-btn">
-                                            <button class="btn btn-success" ng-click="buscarBienes()">
+                                            <button class="btn btn-success br15" ng-click="buscarBienes()">
                                                 <i class="fa-search"></i><span>Buscar</span>
                                             </button>
                                         </div>
@@ -1320,10 +1697,10 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="btn-group fr">
-                                            <button type="button" class="btn btn-blue dropdown-toggle" data-toggle="dropdown">
+                                            <button type="button" class="btn btn-blue dropdown-toggle br15" data-toggle="dropdown">
                                                 Guardar como <span class="caret"></span>
                                             </button>
-                                            <ul class="dropdown-menu dropdown-blue drop-top" role="menu">
+                                            <ul class="dropdown-menu dropdown-blue drop-top br15" role="menu">
                                                 <li><a href="#" ng-click="actualizarSolicitud(3)" data-dismiss="modal">Aprobada</a></li>
                                                 <li><a href="#" ng-click="actualizarSolicitud(1)" data-dismiss="modal">Borrador</a></li>
                                                 <li><a href="#" ng-click="actualizarSolicitud(2)" data-dismiss="modal">No favorable</a></li>
@@ -1365,7 +1742,7 @@
                             <button type="button" id="btnDropdown" class="btn dropdown-toggle" data-toggle="dropdown">
                                 <span class="fa-ellipsis-v"></span>
                             </button>
-                            <ul class="dropdown-menu dropdown-blue drop-left" role="menu">
+                            <ul class="dropdown-menu dropdown-blue drop-left br15" role="menu">
                                 <li><a ng-click="generarSolicitud()">Imprimir solicitud</a></li>
                                 <li><a href="#" ng-if="s.estado==1" ng-click="editarSolicitud(indexSolicitud)">Editar solicitud</a></li>
                                 <li><a href="#" ng-if="s.estado==3" ng-click="modalRecepcion(indexSolicitud)">Realizar descargo</a></li>
@@ -1568,7 +1945,7 @@
                                     <div class="input-group col-md-6">
                                         <input type="text" class="form-control" id="typeahead-1" ng-model="r.nombre" placeholder="Nombre o número del empleado:" data-validate="required" />
                                         <span class="input-group-btn">
-                                          <button class="btn btn-success" >
+                                          <button class="btn btn-success br15" >
                                             <i class="fa-search"></i><span>Buscar</span>
                                         </button>
                                         </span>
@@ -1733,8 +2110,8 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="btn-group fr" ng-if="contarBienes()>0">
-                                            <a class="btn btn-blue" href="#" ng-if="contarBienes()<bienesArray.length" ng-click="generarComprobante(0)" data-dismiss="modal">Guardar como descargo pendiente</a>
-                                            <a class="btn btn-blue" href="#" ng-if="contarBienes()==bienesArray.length" ng-click="generarComprobante(1)" data-dismiss="modal">Guardar</a>
+                                            <a class="btn btn-blue br15" href="#" ng-if="contarBienes()<bienesArray.length" ng-click="generarComprobante(0)" data-dismiss="modal">Guardar como descargo pendiente</a>
+                                            <a class="btn btn-blue br15" href="#" ng-if="contarBienes()==bienesArray.length" ng-click="generarComprobante(1)" data-dismiss="modal">Guardar</a>
                                         </div>
                                     </div>
                                 </div>
@@ -1770,10 +2147,10 @@
                     <h3 class="panel-title">Comprobante de recepción de bienes N° {{c.numComprobante}}</h3>
                     <div class="panel-options">
                         <div class="btn-group rigth-dropdown">
-                            <button type="button" id="btnDropdown" class="btn dropdown-toggle" data-toggle="dropdown">
+                            <button type="button" id="btnDropdown" class="btn dropdown-toggle br15" data-toggle="dropdown">
                                 <span class="fa-ellipsis-v"></span>
                             </button>
-                            <ul class="dropdown-menu dropdown-blue drop-left" role="menu">
+                            <ul class="dropdown-menu dropdown-blue drop-left br15" role="menu">
                                 <li><a href="#" ng-click="generarComprobante(2)">Imprimir comprobante</a></li>
                             </ul>
                             <button type="button" id="btn_modalvermas" class="btn" data-dismiss="modal" aria-hidden="true">
