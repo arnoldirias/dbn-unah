@@ -1,6 +1,6 @@
 angular.module("dbn-app", []).controller("mi_app", function($scope) {
     //Modulo seleccionado
-    $scope.value = 1;
+    $scope.value = 0;
     $scope.mi_app = [{
             index: 0,
             name: "Descargo de Bienes",
