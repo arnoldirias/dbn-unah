@@ -22,7 +22,8 @@
 #modal-vermas,
 #modal-editarSolicitud,
 #modalRecepcion,
-#modalComprobante {
+#modalComprobante,
+#modal-propp {
     width: 75%;
 }
 
@@ -121,4 +122,16 @@ div.ms-container {
 .panel-heading {
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
+}
+
+.form-wizard>.progress-indicator {
+    background: chartreuse;
+}
+
+.form-wizard .tab-content label {
+    color: black;
+}
+
+.exp {
+    max-width: 80%;
 }

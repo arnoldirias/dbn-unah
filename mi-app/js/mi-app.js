@@ -1,8 +1,6 @@
 angular.module("dbn-app", []).controller("mi_app", function($scope) {
-    //$scope.modalDescargo = 1;
-
     //Modulo seleccionado
-    $scope.value = 0;
+    $scope.value = 1;
     $scope.mi_app = [{
             index: 0,
             name: "Descargo de Bienes",
@@ -13,8 +11,6 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
             tabs: [
                 { tabname: "Búsqueda", iconname: "fa-search" },
                 { tabname: "Nueva solicitud", iconname: "fa-file-text" },
-                // { tabname: "Solicitudes", iconname: "fa-files-o" },
-                //{ tabname: "Comprobantes", iconname: "fa-paste" },
                 { tabname: "Reportes", iconname: "fa-book" },
                 { tabname: "Gráficos", iconname: "fa-bar-chart" }
             ]
@@ -29,7 +25,6 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
             tabs: [
                 { tabname: "Búsqueda", iconname: "fa-search" },
                 { tabname: "Nuevo Expediente", iconname: "fa-folder-o" },
-                //{ tabname: "Expedientes", iconname: "fa-folder-open" },
                 { tabname: "Reportes", iconname: "fa-book" },
                 { tabname: "Gráficos", iconname: "fa-bar-chart" }
             ]
@@ -226,6 +221,8 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
     $scope.selected = 1;
     $scope.indexSolicitud = 0;
     $scope.razond = ["", "Inservible", "Obsoleto", "Excedente"];
+    $scope.columnNames = ["N° Inv.", "Descripción", "Marca", "Color", "Valor", "Razón de descargo", "Obs."];
+    $scope.columnNames2 = ["N° Inv.", "Descripción", "Marca", "Color", "Valor"];
     $scope.totalBienes = [
         { numInv: "E-1234", descripcion: "CPU", numFicha: "1234", marca: "HP", modelo: "PAVILON", color: "BLANCO", serie: "DUHD37DG", valor: 14567.91, razon: 1, obs: "", estado: 0, numEmpleado: 1, centro: 1, dep: 2, unidad: 1, r: 0 },
         { numInv: "E-1235", descripcion: "CPU", numFicha: "1235", marca: "HP", modelo: "PAVILON", color: "BLANCO", serie: "DUHD37DT", valor: 14567.91, razon: 1, obs: "", estado: 0, numEmpleado: 1, centro: 1, dep: 2, unidad: 1, r: 0 },
@@ -254,6 +251,28 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         { numComprobante: "00518012021", rfecha: "02/03/2021", rhora: "11:00 AM", rnombre: "JOSE FIGUEROA", rnumEmpleado: 3, obs: "", idSolicitud: 4, centror: 1, unidadr: 2, depr: 2, ubicacionr: 1 }
     ];
     $scope.c = {};
+    $scope.exp_tipo = ["Pérdida interna", "Pérdida externa"];
+    $scope.causa = ["Robo", "Hurto", "Negligencia", "Uso indebido", "Inundación", "Incendio", "Terremoto", "Desastre natural", "Caso fortuito", "Guerra"];
+    $scope.institucion = ["Dirección Policial de Investigación", "COPECO", "BOMBEROS", "Colegio de Ingenieros"];
+    $scope.exp = {
+        numExp: "",
+        edit: 0,
+        tipo: 0,
+        causa: 0,
+        fecha: "",
+        hora: "",
+        interno: { centro: 0, dep: 0, unidad: 0, ubicacion: "" },
+        externo: { depto: 0, muni: 0, direccion: "" },
+        doc: { institucion: 0, numDoc: "", fecha: "", hora: "", descripcion: "" },
+        permiso: { numDoc: "", motivo: "", fecha: "" },
+        empleados: [
+            { num: 1234, nombre: "JUAN FERNANDO AGUILERA", cargo: "PROFESOR AUXILIAR", ubicacion: "", img: "" },
+            { num: 1235, nombre: "ROSSY PAZ", cargo: "PROFESOR TITULAR", ubicacion: "", img: "" }
+        ],
+        bienes: [],
+        obs: ""
+    };
+    $scope.expedientes = [];
 
     //nueva solicitud
     $scope.s = { centro: 0, dep: 0, unidad: 0, numDoc: "", fechaDoc: "", nombre: "", numEmpleado: "", bienes: [], obs: "", estado: 0 };
@@ -374,37 +393,6 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         $scope.checkBotton();
     }
 
-    $scope.incr = function() {
-            $scope.modalDescargo++;
-            tabsModalDescargo.children[$scope.modalDescargo - 1].children[0].click();
-        } //no used
-
-    $scope.decr = function() {
-            $scope.modalDescargo--;
-            tabsModalDescargo.children[$scope.modalDescargo - 1].children[0].click();
-        } //no used
-
-    $scope.back = function() {
-            return $scope.modalDescargo > 1;
-        } //no used
-
-    $scope.next = function() {
-            return $scope.modalDescargo < 4;
-        } //no used
-
-    $scope.activar = function(index) {
-            if (index == $scope.modalDescargo) {
-                $scope.modalDescargo = index;
-                // tabsModalDescargo.children[$scope.modalDescargo - 1].children[0].click();
-                return "active enabled";
-            } else if (index < $scope.modalDescargo) {
-                return "enabled";
-            }
-            return "disabled";
-        } //no used
-
-    $scope.tabClick = function(index) {} //no used
-
     //Guarda la nueva solicitud de descargo
     $scope.guardarSolicitud = function(i) {
         $scope.s.estado = i;
@@ -412,8 +400,9 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         $scope.solicitudes.push($scope.s);
         $scope.s = $scope.s2;
         $scope.bienesArray = [];
+        $scope.bienes = [];
         $("#tabUnidad").click();
-        cerrarModalDescargo.click();
+        cerrarModal.click();
         toastr.success('<i class="fa-file-text br15"></i> Número de solicitud: <strong>{{result.data}}</strong><br> Notificación enviada a: <br><i class="fa fa-envelope"></i> empleado@unah.edu.hn',
             'Solicitud guardada con éxito', {
                 "positionClass": "toast-bottom-right",
@@ -430,9 +419,10 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         $scope.totalSolicitudes[$scope.indexSolicitud] = $scope.s;
         $scope.s = $scope.s2;
         $scope.bienesArray = [];
+        $scope.bienes = [];
         $("#tabUnidad").click();
         btn_modalvermas.click();
-        cerrarModalDescargo.click();
+        cerrarModal.click();
         toastr.success('<i class="fa-file-text br15"></i> Número de solicitud: <strong>{{result.data}}</strong><br> Notificación enviada a: <br><i class="fa fa-envelope"></i> empleado@unah.edu.hn',
             'Solicitud editada con éxito', {
                 "positionClass": "toast-bottom-right",
@@ -448,12 +438,13 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
 
     //Muestra el modal adecuado segun el modulo
     $scope.mostrarModal = function() {
+        $scope.bienesArray = [];
+        $scope.bienes = [];
 
         $scope.resetBusqOptions();
 
         if ($scope.value == 0) {
             $scope.s = $scope.s2;
-            $scope.bienesArray = [];
             $("#tabUnidad").click();
             jQuery('#modal-6').modal('show', {
                 backdrop: 'static'
@@ -463,6 +454,8 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
             jQuery('#modalPropp').modal('show', {
                 backdrop: 'static'
             });
+            $("#tabDetalles").click();
+
         }
 
     }
@@ -471,15 +464,17 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
     $scope.mostrarModal2 = function(index) {
 
         $scope.resetBusqOptions();
+        $scope.bienesArray = [];
+        $scope.bienes = [];
 
         if ($scope.value == 0 && index == 1) {
             $scope.s = $scope.s2;
-            $scope.bienesArray = [];
             $("#tabUnidad").click();
             jQuery('#modal-6').modal('show', {
                 backdrop: 'static'
             });
         } else if ($scope.value == 1 && index == 1) {
+            $("#tabDetalles").click();
             jQuery('#modalPropp').modal('show', {
                 backdrop: 'static'
             });
@@ -774,9 +769,10 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         }
         $scope.s = $scope.s2;
         $scope.bienesArray = [];
+        $scope.bienes = [];
         $("#tabUbicacion").click();
         btn_modalvermas.click();
-        cerrarModalRecepcion.click();
+        cerrarModal.click();
     }
     $scope.verComprobante = function(index) {
         console.log(index);
@@ -817,6 +813,41 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
             }
         }
 
+    }
+
+    //Guarda la nueva solicitud de descargo
+    $scope.guardarExp = function() {
+        $scope.exp.bienes = $scope.bienesArray;
+        $scope.expedientes.push($scope.exp);
+        $scope.exp = {
+            numExp: "",
+            edit: 0,
+            tipo: 0,
+            causa: 0,
+            fecha: "",
+            hora: "",
+            interno: { centro: 0, dep: 0, unidad: 0, ubicacion: "" },
+            externo: { depto: 0, muni: 0, direccion: "" },
+            doc: { institucion: 0, numDoc: "", fecha: "", hora: "", descripcion: "" },
+            permiso: { numDoc: "", motivo: "", fecha: "" },
+            empleados: [
+                { num: 1234, nombre: "JUAN FERNANDO AGUILERA", cargo: "PROFESOR AUXILIAR", ubicacion: "", img: "" },
+                { num: 1235, nombre: "ROSSY PAZ", cargo: "PROFESOR TITULAR", ubicacion: "", img: "" }
+            ],
+            bienes: [],
+            obs: ""
+        };
+        $scope.bienesArray = [];
+        $scope.bienes = [];
+        $("#tabDetalles").click();
+        cerrarModalExp.click();
+        toastr.success('<i class="fa-file-text br15"></i> Número de Expediente: <strong>{{result.data}}</strong>',
+            'Expediente guardado con éxito', {
+                "positionClass": "toast-bottom-right",
+                "showDuration": "4000",
+                "hideDuration": "1000",
+                "timeOut": "10000"
+            });
     }
 
 });

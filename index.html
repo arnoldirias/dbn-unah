@@ -127,8 +127,8 @@
                     <div class="form-group">
                         <strong><H4>{{tableSearch[value][tabSelected].description}}</H4></strong>
                         <label class="radio-inline searchOptions" ng-repeat="itemSearch in searchOptionsArray" ng-hide="!tableSearch[value][tabSelected].{{itemSearch.varTxt}}">
-                            <input type="radio" name="radio-2" class="cbr cbr-blue" ng-model="tipoBusqueda" ng-click="checkBottonValue(itemSearch.value)" value="{{itemSearch.value}}">
-                            {{itemSearch.description}}
+                                <input type="radio" name="radio-2" class="cbr cbr-blue" ng-model="tipoBusqueda" ng-click="checkBottonValue(itemSearch.value)" value="{{itemSearch.value}}">
+                                {{itemSearch.description}}
                         </label>
                     </div>
                 </div>
@@ -289,13 +289,13 @@
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-md-9">
-                                            <strong><h4>Detalles de la Unidad Solicitante</h4></strong>
+                                            <h4><strong>Detalles de la Unidad Solicitante</strong></h4>
                                             <div>Centro universitario: <strong>{{centrosr[s_array[0].centro-1]}}</strong></div>
                                             <div>Dependencia: <strong>{{dependencia[s_array[0].dep-1]}}</strong></div>
                                             <div>Unidad: <strong>{{unidad[s_array[0].unidad-1]}}</strong></div>
                                         </div>
                                         <div class="col-md-3">
-                                            <strong><h4>Datos de la solicitud</h4></strong>
+                                            <h4><strong>Datos de la solicitud</strong></h4>
                                             <div>Número: <strong>{{s_array[0].num}}</strong></div>
                                             <div>Fecha de ingreso: <strong>{{s_array[0].fecha}}</strong></div>
                                             <div>Estado:
@@ -307,7 +307,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <strong><h4>Detalles del Oficio</h4></strong>
+                                            <h4><strong>Detalles del Oficio</strong></h4>
                                             <div>Solicitante: <strong>{{s_array[0].nombre}}</strong></div>
                                             <div>Número de documento: <strong>{{s_array[0].numDoc}}</strong></div>
                                             <div>Fecha: <strong>{{s_array[0].fechaDoc}}</strong></div>
@@ -320,13 +320,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th></th>
-                                                        <th>N° Inv.</th>
-                                                        <th>Descripción</th>
-                                                        <th>Marca</th>
-                                                        <th>Color</th>
-                                                        <th>Valor</th>
-                                                        <th>Razón de descargo</th>
-                                                        <th>Obs.</th>
+                                                        <th ng-repeat="columnName in columnNames">{{columnName}}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -406,14 +400,14 @@
                                         </div>
 
                                         <div class="col-md-12">
-                                            <strong><h4>Unidad Solicitante</h4></strong>
+                                            <h4><strong>Unidad Solicitante</strong></h4>
                                             <div><strong>{{centrosr[solicitud.centro-1]}}</strong></div>
                                             <div><strong>{{dependencia[solicitud.dep-1]}}</strong></div>
                                             <div><strong>{{unidad[solicitud.unidad-1]}}</strong></div>
                                         </div>
 
                                         <div class="col-md-12">
-                                            <strong><h4>Detalles del Oficio</h4></strong>
+                                            <h4><strong>Detalles del Oficio</strong></h4>
                                             <div>Solicitante:<strong>{{solicitud.nombre}}</strong></div>
                                         </div>
                                         <div class="col-md-7">Documento: <strong>{{solicitud.numDoc}}</strong></div>
@@ -864,7 +858,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">{{mi_app[value].modalTitle}}</h3>
                     <div class="panel-options">
-                        <button id="cerrarModalDescargo" type="button" ng-click="modalDescargo=0;mostrarModal2(tabSelected)" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <button id="cerrarModal" type="button" ng-click="modalDescargo=0;mostrarModal2(tabSelected)" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                 </div>
 
@@ -883,7 +877,7 @@
                             <div class="tab-pane with-bg active" id="fwv-1">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <strong><h4>Detalles de la Unidad Solicitante</h4></strong>
+                                        <h4><strong>Detalles de la Unidad Solicitante</strong></h4>
 
                                         <div class="row">
                                             <div class="form-group col-md-12">
@@ -921,7 +915,7 @@
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <strong><h4>Detalles del Oficio</h4></strong>
+                                        <h4><strong>Detalles del Oficio</strong></h4>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -947,7 +941,7 @@
                             </div>
 
                             <div class="tab-pane with-bg" id="fwv-2">
-                                <strong><h4><span class="bcr">*</span>Información del empleado</h4></strong>
+                                <h4><strong><span class="bcr">*</span>Información del empleado</strong></h4>
                                 <div class="form-group">
                                     <label class="control-label" for="tagsinput-1"></label>
                                     <div class="input-group col-md-6">
@@ -977,7 +971,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <strong>Buscar bienes por:</strong>
+                                            <h4><strong>Buscar bienes por:</strong></h4>
                                             <p>
                                                 <label class="radio-inline">
 												<input type="radio" name="radio-2" ng-model="busqBienes" value="1" class="cbr cbr-blue">
@@ -1079,13 +1073,7 @@
                                             <thead>
                                                 <tr>
                                                     <th></th>
-                                                    <th>N° Inv.</th>
-                                                    <th>Descripción</th>
-                                                    <th>Marca</th>
-                                                    <th>Color</th>
-                                                    <th>Valor</th>
-                                                    <th>Razón de descargo</th>
-                                                    <th>Obs.</th>
+                                                    <th ng-repeat="columnName in columnNames">{{columnName}}</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -1136,13 +1124,7 @@
                                             <thead>
                                                 <tr>
                                                     <th></th>
-                                                    <th>N° Inv.</th>
-                                                    <th>Descripción</th>
-                                                    <th>Marca</th>
-                                                    <th>Color</th>
-                                                    <th>Valor</th>
-                                                    <th>Razón de descargo</th>
-                                                    <th>Obs.</th>
+                                                    <th ng-repeat="columnName in columnNames">{{columnName}}</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -1181,13 +1163,13 @@
                             <div class="tab-pane with-bg" id="fwv-4">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <strong><h4>Detalles de la Unidad Solicitante</h4></strong>
+                                        <h4><strong>Detalles de la Unidad Solicitante</strong></h4>
                                         <div>Centro universitario: <strong>{{centrosr[s.centro-1]}}</strong></div>
                                         <div>Dependencia: <strong>{{dependencia[s.dep-1]}}</strong></div>
                                         <div>Unidad: <strong>{{unidad[s.unidad-1]}}</strong></div>
                                     </div>
                                     <div class="col-md-6">
-                                        <strong><h4>Detalles del Oficio</h4></strong>
+                                        <h4><strong>Detalles del Oficio</strong></h4>
                                         <div>Solicitante: <strong>{{s.nombre}}</strong></div>
                                         <div>Número de documento: <strong>{{s.numDoc}}</strong></div>
                                         <div>Fecha: <strong>{{s.fechaDoc}}</strong></div>
@@ -1200,13 +1182,7 @@
                                             <thead>
                                                 <tr>
                                                     <th></th>
-                                                    <th>N° Inv.</th>
-                                                    <th>Descripción</th>
-                                                    <th>Marca</th>
-                                                    <th>Color</th>
-                                                    <th>Valor</th>
-                                                    <th>Razón de descargo</th>
-                                                    <th>Obs.</th>
+                                                    <th ng-repeat="columnName in columnNames">{{columnName}}</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -1303,7 +1279,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Editar solicitud de descargo N° {{s_array[indexSolicitud].num}}</h3>
                     <div class="panel-options">
-                        <button id="cerrarModalDescargo" type="button" ng-click="mostrarModal2(tabSelected)" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <button id="cerrarModal" type="button" ng-click="mostrarModal2(tabSelected)" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                 </div>
 
@@ -1322,7 +1298,7 @@
                             <div class="tab-pane with-bg active" id="fwv-11">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <strong><h4>Detalles de la Unidad Solicitante</h4></strong>
+                                        <h4><strong>Detalles de la Unidad Solicitante</strong></h4>
                                         <div class="row">
 
                                             <div class="form-group col-md-12">
@@ -1360,7 +1336,7 @@
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <strong><h4>Detalles del Oficio</h4></strong>
+                                        <h4><strong>Detalles del Oficio</strong></h4>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -1385,7 +1361,7 @@
                             </div>
 
                             <div class="tab-pane with-bg" id="fwv-21">
-                                <strong><h4><span class="bcr">*</span>Información del empleado</h4></strong>
+                                <h4><strong><span class="bcr">*</span>Información del empleado</strong></h4>
                                 <div class="form-group">
                                     <label class="control-label" for="tagsinput-1"></label>
 
@@ -1418,7 +1394,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <strong>Buscar bienes por:</strong>
+                                            <h4><strong>Buscar bienes por:</strong></h4>
                                             <p>
                                                 <label class="radio-inline">
 												<input type="radio" name="radio-2" ng-model="busqBienes" value="1" class="cbr cbr-blue">
@@ -1519,13 +1495,7 @@
                                             <thead>
                                                 <tr>
                                                     <th></th>
-                                                    <th>N° Inv.</th>
-                                                    <th>Descripción</th>
-                                                    <th>Marca</th>
-                                                    <th>Color</th>
-                                                    <th>Valor</th>
-                                                    <th>Razón de descargo</th>
-                                                    <th>Obs.</th>
+                                                    <th ng-repeat="columnName in columnNames">{{columnName}}</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -1575,13 +1545,7 @@
                                             <thead>
                                                 <tr>
                                                     <th></th>
-                                                    <th>N° Inv.</th>
-                                                    <th>Descripción</th>
-                                                    <th>Marca</th>
-                                                    <th>Color</th>
-                                                    <th>Valor</th>
-                                                    <th>Razón de descargo</th>
-                                                    <th>Obs.</th>
+                                                    <th ng-repeat="columnName in columnNames">{{columnName}}</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -1619,13 +1583,13 @@
                             <div class="tab-pane with-bg" id="fwv-41">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <strong><h4>Detalles de la Unidad Solicitante</h4></strong>
+                                        <h4><strong>Detalles de la Unidad Solicitante</strong></h4>
                                         <div>Centro universitario: <strong>{{centrosr[s.centro-1]}}</strong></div>
                                         <div>Dependencia: <strong>{{dependencia[s.dep-1]}}</strong></div>
                                         <div>Unidad: <strong>{{unidad[s.unidad-1]}}</strong></div>
                                     </div>
                                     <div class="col-md-6">
-                                        <strong><h4>Detalles del Oficio</h4></strong>
+                                        <h4><strong>Detalles del Oficio</strong></h4>
                                         <div>Solicitante: <strong>{{s.nombre}}</strong></div>
                                         <div>Número de documento: <strong>{{s.numDoc}}</strong></div>
                                         <div>Fecha: <strong>{{s.fechaDoc}}</strong></div>
@@ -1638,13 +1602,7 @@
                                             <thead>
                                                 <tr>
                                                     <th></th>
-                                                    <th>N° Inv.</th>
-                                                    <th>Descripción</th>
-                                                    <th>Marca</th>
-                                                    <th>Color</th>
-                                                    <th>Valor</th>
-                                                    <th>Razón de descargo</th>
-                                                    <th>Obs.</th>
+                                                    <th ng-repeat="columnName in columnNames">{{columnName}}</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -1760,13 +1718,13 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-9">
-                            <strong><h4>Detalles de la Unidad Solicitante</h4></strong>
+                            <h4><strong>Detalles de la Unidad Solicitante</strong></h4>
                             <div>Centro universitario: <strong>{{centrosr[s.centro-1]}}</strong></div>
                             <div>Dependencia: <strong>{{dependencia[s.dep-1]}}</strong></div>
                             <div>Unidad: <strong>{{unidad[s.unidad-1]}}</strong></div>
                         </div>
                         <div class="col-md-3">
-                            <strong><h4>Datos de la solicitud</h4></strong>
+                            <h4><strong>Datos de la solicitud</strong></h4>
                             <div>Número: <strong>{{s.num}}</strong></div>
                             <div>Fecha de ingreso: <strong>{{s.fecha}}</strong></div>
                             <div>Estado:
@@ -1778,7 +1736,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <strong><h4>Detalles del Oficio</h4></strong>
+                            <h4><strong>Detalles del Oficio</strong></h4>
                             <div>Solicitante: <strong>{{s.nombre}}</strong></div>
                             <div>Número de documento: <strong>{{s.numDoc}}</strong></div>
                             <div>Fecha: <strong>{{s.fechaDoc}}</strong></div>
@@ -1791,13 +1749,7 @@
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th>N° Inv.</th>
-                                        <th>Descripción</th>
-                                        <th>Marca</th>
-                                        <th>Color</th>
-                                        <th>Valor</th>
-                                        <th>Razón de descargo</th>
-                                        <th>Obs.</th>
+                                        <th ng-repeat="columnName in columnNames">{{columnName}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1847,7 +1799,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Recepción de Bienes - Solicitud N° {{s.num}}</h3>
                     <div class="panel-options">
-                        <button id="cerrarModalRecepcion" type="button" ng-click="modalDescargo=0;mostrarModal2(tabSelected)" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <button id="cerrarModal" type="button" ng-click="modalDescargo=0;mostrarModal2(tabSelected)" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                 </div>
 
@@ -1866,7 +1818,7 @@
                             <div class="tab-pane with-bg active" id="fwv-12">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <strong><h4>Datos del traslado de los bienes</h4></strong>
+                                        <h4><strong>Datos del traslado de los bienes</strong></h4>
                                         <strong>Nueva ubicación</strong>
                                         <div class="row">
                                             <div class="form-group col-md-6">
@@ -1938,7 +1890,7 @@
                             </div>
 
                             <div class="tab-pane with-bg" id="fwv-22">
-                                <strong><h4><span class="bcr">*</span>Persona que entrega los bienes:</h4></strong>
+                                <h4><strong><span class="bcr">*</span>Persona que entrega los bienes:</strong></h4>
                                 <div class="form-group">
                                     <label class="control-label" for="tagsinput-1"></label>
 
@@ -1983,13 +1935,7 @@
                                             <thead>
                                                 <tr>
                                                     <th></th>
-                                                    <th>N° Inv.</th>
-                                                    <th>Descripción</th>
-                                                    <th>Marca</th>
-                                                    <th>Color</th>
-                                                    <th>Valor</th>
-                                                    <th>Razón de descargo</th>
-                                                    <th>Obs.</th>
+                                                    <th ng-repeat="columnName in columnNames">{{columnName}}</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -2038,14 +1984,14 @@
                             <div class="tab-pane with-bg" id="fwv-42">
                                 <div class="row">
                                     <div class="col-md-7">
-                                        <strong><h4>Nueva ubicación de los bienes</h4></strong>
+                                        <h4><strong>Nueva ubicación de los bienes</strong></h4>
                                         <div>Centro universitario: <strong>{{centrosr[r.centro-1]}}</strong></div>
                                         <div>Dependencia: <strong>{{dependencia[r.dep-1]}}</strong></div>
                                         <div>Unidad: <strong>{{unidad[r.unidad-1]}}</strong></div>
                                         <div>Ubicación: <strong>{{ubicaciones[r.ubicacion-1]}}</strong></div>
                                     </div>
                                     <div class="col-md-5">
-                                        <strong><h4>Detalles de recepción</h4></strong>
+                                        <h4><strong>Detalles de recepción</strong></h4>
                                         <div>Recibí de: <strong>{{r.nombre}}</strong></div>
                                         <div class="row">
                                             <div class="col-md-6">Fecha: <strong>{{r.fecha}}</strong></div>
@@ -2059,13 +2005,7 @@
                                         <table class="table table-bordered table-striped table-condensed table-hover" ng-if="bienesArray.length>0">
                                             <thead>
                                                 <tr>
-                                                    <th>N° Inv.</th>
-                                                    <th>Descripción</th>
-                                                    <th>Marca</th>
-                                                    <th>Color</th>
-                                                    <th>Valor</th>
-                                                    <th>Razón de descargo</th>
-                                                    <th>Obs.</th>
+                                                    <th ng-repeat="columnName in columnNames">{{columnName}}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -2163,14 +2103,14 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-8">
-                            <strong><h4>Detalles de la unidad solicitante</h4></strong>
+                            <h4><strong>Detalles de la unidad solicitante</strong></h4>
                             <div>Centro universitario: <strong>{{centrosr[totalSolicitudes[c.idSolicitud].centro-1]}}</strong></div>
                             <div>Dependencia: <strong>{{dependencia[totalSolicitudes[c.idSolicitud].dep-1]}}</strong></div>
                             <div>Unidad: <strong>{{unidad[totalSolicitudes[c.idSolicitud].unidad-1]}}</strong></div>
                             <div>Solicitante: <strong>{{totalSolicitudes[c.idSolicitud].nombre}}</strong></div>
                         </div>
                         <div class="col-md-4">
-                            <strong><h4>Datos de la Solicitud</h4></strong>
+                            <h4><strong>Datos de la Solicitud</strong></h4>
                             <div>Solicitud N°: <strong>{{totalSolicitudes[c.idSolicitud].num}}</strong></div>
                             <div>Fecha de ingreso: <strong>{{totalSolicitudes[c.idSolicitud].fecha}}</strong></div>
                             <div>Oficio: <strong>{{totalSolicitudes[c.idSolicitud].numDoc}}</strong></div>
@@ -2179,7 +2119,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-8">
-                            <strong><h4>Recepción de los bienes</h4></strong>
+                            <h4><strong>Recepción de los bienes</strong></h4>
                             <div>Centro universitario: <strong>{{centrosr[c.centror-1]}}</strong></div>
                             <div>Dependencia: <strong>{{dependencia[c.depr-1]}}</strong></div>
                             <div>Unidad: <strong>{{unidad[c.unidadr-1]}}</strong></div>
@@ -2187,7 +2127,7 @@
                             <div>Persona que entrega: <strong>{{c.rnombre}}</strong></div>
                         </div>
                         <div class="col-md-4">
-                            <strong><h4>Datos del comprobante</h4></strong>
+                            <h4><strong>Datos del comprobante</strong></h4>
                             <div>Comprobante N°: <strong>{{c.numComprobante}}</strong></div>
                             <div>Fecha: <strong>{{c.rfecha}}</strong></div>
                             <div>Hora: <strong>{{c.rhora}}</strong></div>
@@ -2199,14 +2139,7 @@
                             <table class="table table-bordered table-striped table-condensed table-hover" ng-if="totalSolicitudes[c.idSolicitud].bienes.length>0">
                                 <thead>
                                     <tr>
-                                        <th></th>
-                                        <th>N° Inv.</th>
-                                        <th>Descripción</th>
-                                        <th>Marca</th>
-                                        <th>Color</th>
-                                        <th>Valor</th>
-                                        <th>Razón de descargo</th>
-                                        <th>Obs.</th>
+                                        <th ng-repeat="columnName in columnNames">{{columnName}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -2243,6 +2176,571 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nuevo Expediente Propiedad perdida-->
+    <!--Inicio del form-modalPropp-->
+    <!--Requiere código jqueryReady.js-->
+    <div class="modal fade" id="modalPropp">
+        <div class="modal-dialog" id="modal-propp">
+            <div class="panel panel-color panel-success br15">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{mi_app[value].modalTitle}}</h3>
+                    <div class="panel-options">
+                        <button id="cerrarModalExp" type="button" ng-click="modalDescargo=0;mostrarModal2(tabSelected)" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <form role="forl" id="rootwizard" class="form-wizard validate" novalidate>
+                        <ul class="tabs">
+                            <li class="active"><a id="tabDetalles" href="#fwv-13" data-toggle="tab">Detalles</a></li>
+                            <li><a href="#fwv-131" data-toggle="tab">Documentos</a></li>
+                            <li><a href="#fwv-33" data-toggle="tab">Bienes</a></li>
+                            <li><a href="#fwv-23" data-toggle="tab">Empleados</a></li>
+                            <li><a href="#fwv-43" data-toggle="tab">Resumen</a></li>
+                        </ul>
+                        <div class="progress-indicator"></div>
+
+                        <!-- Tabs Content -->
+                        <div class="tab-content no-margin">
+                            <div class="tab-pane with-bg active" id="fwv-13">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h4><strong>Detalles de la pérdida</strong></h4>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <span class="bcr">*</span>
+                                        <label class="control-label" for="state">Tipo:</label>
+                                        <select name="test" class="selectboxit" ng-model="exp.tipo" required data-validate="required" data-message-required="Este campo es obligatorio.">
+                                            <option value="0">Pérdida interna</option>
+                                            <option value="1">Pérdida externa</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <span class="bcr">*</span>
+                                        <label class="control-label" for="state">Causa:</label>
+                                        <select name="test" class="selectboxitForm" ng-model="exp.causa" required data-validate="required" data-message-required="Este campo es obligatorio.">
+                                            <option value="0"> Seleccione...</option>
+                                            <option ng-repeat="c in causa" ng-value="$index+1">{{c}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                        <div class="row">
+                                            
+                                            <div class="form-group col-md-9">
+                                                <h4><strong>Lugar y fecha de ocurrencia de los hechos</strong></h4>
+                                            </div>
+                                        </div>
+                                        <div class="row" ng-hide="exp.tipo==1">
+                                            <div class="form-group col-md-6">
+                                                <span class="bcr">*</span>
+                                                <label class="control-label" for="state">Centro Universitario:</label>
+                                                <select name="test" class="selectboxitForm" ng-model="exp.interno.centro" required data-validate="required" data-message-required="Este campo es obligatorio.">
+                                                    <option value="0"> Seleccione...</option>
+                                                    <option value="1">Ciudad Universitaria</option>
+                                                    <option value="2">UNAH Valle de Sula</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <span class="bcr">*</span>
+                                                <label class="control-label" for="state">Dependencia:</label>
+                                                <select name="test" class="selectboxitForm" ng-model="exp.interno.dep" required data-validate="required" data-message-required="Este campo es obligatorio.">
+                                                    <option value="0"> Seleccione...</option>
+                                                    <option value="1">Rectoría</option>
+                                                    <option value="2">Secretaría Ejecutiva de Administración y Finanzas</option> 
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <span class="bcr">*</span>
+                                                <label class="control-label" for="state">Unidad:</label>
+                                                <select name="test" class="selectboxitForm" ng-model="exp.interno.unidad" required data-validate="required" data-message-required="Este campo es obligatorio.">
+                                                    <option value="0"> Seleccione...</option>
+                                                    <option value="1">Secretaría Ejecutiva de Administración y Finanzas</option>
+                                                    <option value="2">Departamento de Bienes Nacionales</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <span class="bcr">*</span>
+                                                    <label class="control-label" for="oficioRef">Ubicación específica:</label>
+                                                    <!--data-validate="required,minlength[3],maxlength[25]"-->
+                                                    <input class="form-control" name="oficioRef" id="oficioRef" ng-model="exp.interno.ubicacion" data-validate="minlength[3],maxlength[150]" data-message-required="Este campo es obligatorio." data-message-minlength="Ingrese al menos 3 caracteres." data-message-maxlength="Ingrese un máximo de 150 caracteres.."
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" ng-hide="exp.tipo==0">
+                                            <div class="form-group col-md-6">
+                                                <span class="bcr">*</span>
+                                                <label class="control-label" for="state">Departamento:</label>
+                                                <select name="test" class="selectboxitForm" ng-model="exp.externo.depto" id="exp_depto" required data-validate="required" data-message-required="Este campo es obligatorio.">
+                                                    <option value="0"> Seleccione...</option>
+                                                    <option value="1">Francisco Morazán</option>
+                                                    <option value="2">Cortés</option> 
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <span class="bcr">*</span>
+                                                <label class="control-label" for="state">Municipio:</label>
+                                                <select name="test" class="selectboxitForm" ng-model="exp.externo.muni" id="exp_muni" required data-validate="required" data-message-required="Este campo es obligatorio.">
+                                                    <option value="0"> Seleccione...</option>
+                                                    <option value="1">Distrito Central</option>
+                                                    <option value="2">Valle de Ángeles</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <span class="bcr">*</span>
+                                                    <label class="control-label" for="oficioRef">Dirección exacta:</label>
+                                                    <!--data-validate="required,minlength[3],maxlength[25]"-->
+                                                    <input class="form-control" name="oficioRef" id="oficioRef" ng-model="exp.externo.direccion" data-validate="minlength[3],maxlength[150]" data-message-required="Este campo es obligatorio." data-message-minlength="Ingrese al menos 3 caracteres." data-message-maxlength="Ingrese un máximo de 150 caracteres.."
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <span class="bcr">*</span>
+                                                            <label class="control-label" for="rfecha">Fecha:</label>
+                                                            <!--data-validate="required"-->
+                                                            <input class="form-control" name="rfecha" id="exp_fecha" ng-model="exp.fecha" data-mask="date" placeholder="" data-validate="" data-message-required="Este campo es obligatorio." />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <span class="bcr">*</span>
+                                                            <label class="control-label" for="rhora">Hora:</label>
+                                                            <!--data-validate="required"-->
+                                                            <input type="text" class="form-control timepicker" name="rhora" id="exp_hora" ng-model="exp.hora" data-template="dropdown" data-show-seconds="false" data-show-meridian="true" data-minute-step="5" data-validate="" data-message-required="Este campo es obligatorio.">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane with-bg" id="fwv-131">
+                                <h4><strong>Documento de Respaldo</strong></h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label class="control-label" for="state">Institución:</label>
+                                                <select name="test" class="selectboxitForm" ng-model="exp.doc.institucion" required data-validate="required" data-message-required="Este campo es obligatorio.">
+                                                    <option value="0"> Seleccione...</option>
+                                                    <option ng-repeat="inst in institucion" ng-value="$index+1">{{inst}}</option>
+                                                   </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                    <label class="control-label" for="oficioRef">Número del documento o denuncia:</label>
+                                                    <!--data-validate="required,minlength[3],maxlength[25]"-->
+                                                    <input class="form-control" name="oficioRef" id="oficioRef" ng-model="exp.doc.numDoc" data-validate="minlength[3],maxlength[25]" data-message-minlength="Ingrese al menos 3 caracteres." data-message-maxlength="Ingrese un máximo de 25 caracteres.."
+                                                    />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label class="control-label" for="rfecha">Fecha:</label>
+                                                <!--data-validate="required"-->
+                                                <input class="form-control" name="rfecha" id="exp_docfecha" ng-model="exp.doc.fecha" data-mask="date" placeholder=""/>
+                                            </div>
+                                        
+                                            <div class="form-group col-md-6">
+                                                <label class="control-label" for="rhora">Hora:</label>
+                                                <!--data-validate="required"-->
+                                                <input type="text" class="form-control timepicker" name="rhora" id="exp_dochora" ng-model="exp.doc.hora" data-template="dropdown" data-show-seconds="false" data-default-time="11:25 AM" data-show-meridian="true" data-minute-step="5" data-validate="" data-message-required="Este campo es obligatorio.">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="field-8" class="control-label">Descripción general del documento:</label>
+                                                    <textarea class="form-control autogrow" id="field-8" ng-model="exp.doc.descripcion" placeholder=""></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row" ng-hide="exp.tipo==0">
+                                    <div class="col-md-12">
+                                        <h4><strong>Permiso de salida</strong></h4>
+                                    </div>
+                                    
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                    <label class="control-label" for="oficioRef">Número de documento:</label>
+                                                    <!--data-validate="required,minlength[3],maxlength[25]"-->
+                                                    <input class="form-control" name="oficioRef" id="permiso_numDoc" ng-model="exp.permiso.numDoc" data-validate="minlength[3],maxlength[25]" data-message-minlength="Ingrese al menos 3 caracteres." data-message-maxlength="Ingrese un máximo de 25 caracteres.."
+                                                    />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label" for="oficioRef">Motivo o razón de salida:</label>
+                                                <!--data-validate="required,minlength[3],maxlength[25]"-->
+                                                <input class="form-control" name="oficioRef" id="permiso_motivo" ng-model="exp.permiso.motivo" data-validate="minlength[3],maxlength[25]" data-message-minlength="Ingrese al menos 3 caracteres." data-message-maxlength="Ingrese un máximo de 25 caracteres.."
+                                                />
+                                        </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label" for="rfecha">Fecha:</label>
+                                                <!--data-validate="required"-->
+                                                <input class="form-control" name="rfecha" id="permiso_fecha" ng-model="exp.permiso.fecha" data-mask="date" placeholder=""/>
+                                            </div>
+                                        </div>
+                                        
+                                        </div>
+                                    </div>
+                            </div>
+
+                            <div class="tab-pane with-bg" id="fwv-23">
+                                <h4><strong><span class="bcr">*</span>Información del empleado</strong></h4>
+                                <div class="form-group">
+                                    <label class="control-label" for="tagsinput-1"></label>
+                                    <div class="input-group col-md-6">
+                                        <input type="text" class="form-control" id="typeahead-1" ng-model="s.nombre" placeholder="Nombre o número del empleado:" data-validate="required" />
+                                        <span class="input-group-btn">
+                                          <button class="btn btn-success br15" ><i class="fa-search"></i><span>Buscar</span></button>
+                                        </span>
+                                    </div><br>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+					                        <div class="panel panel-color panel-success br15" ng-repeat="empleado in exp.empleados" style="margin-bottom: 0px;">
+						                        <div class="panel-heading br15">
+							                        <div class="panel-options">
+								                         <a href="#" data-toggle="remove">&times;</a>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="user-image col-md-2">
+                                                            <a href="#"><img src="assets/images/user-2.png" class="img-responsive img-circle exp" /></a>
+                                                        </div>
+                                                        <div class="user-details col-md-9">
+                                                            <h4 class="user-title">{{empleado.nombre}} ({{empleado.num}})</h4>
+                                                            <h5>{{empleado.cargo}}</h5>
+                                                            <input class="form-control" placeholder="* Ubicación donde se encontraba al ocurrir los hechos" ng-model="empleado.ubicacion" data-validate="required,minlength[3],maxlength[150]" data-message-required="Este campo es obligatorio." data-message-minlength="Ingrese al menos 3 caracteres." data-message-maxlength="Ingrese un máximo de 150 caracteres.."
+                                                            />
+                                                        </div>
+                                                    </div>
+					                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p></p>
+                            </div>
+
+                            <div class="tab-pane with-bg" id="fwv-33">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <h4><strong>Buscar bienes por:</strong></h4>
+                                            <p>
+                                                <label class="radio-inline">
+												<input type="radio" name="radio-2" ng-model="busqBienes" value="1" class="cbr cbr-blue">
+												    Número de inventario
+											    </label>
+                                                <label class="radio-inline">
+												    <input type="radio" name="radio-2" ng-model="busqBienes" value="2" class="cbr cbr-blue">
+												    Número de empleado
+											    </label>
+                                                <label class="radio-inline">
+												    <input type="radio" name="radio-2" class="cbr cbr-blue" ng-model="busqBienes" value="18">
+												    Ubicación
+											    </label>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" ng-if="busqBienes<15">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input type="text" id="inputBusqueda" ng-model="busqOptions.text" ng-keyup="$event.keyCode == 13 && buscarBienes()" class="form-control no-right-border form-focus-green" placeholder="{{searchPlaceholder[busqBienes]}}">
+                                            <span class="input-group-btn">
+                                            <button class="btn btn-success br15" ng-click="buscarBienes()">
+                                                <i class="fa-search"></i><span>Buscar</span>
+                                            </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" ng-hide="busqBienes!=18">
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label" for="state">Centro Universitario:</label>
+                                        <select name="test" class="selectboxitForm">
+                                            <option value="0"> Seleccione...</option>
+                                            <option value="1">Ciudad Universitaria</option>
+                                            <option value="2">UNAH Valle de Sula</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label" for="state">Dependencia:</label>
+                                        <select name="test" class="selectboxitForm" data-validate="required" data-message-required="Este campo es obligatorio.">
+                                            <option value="0"> Seleccione...</option>
+                                            <option value="1">Rectoría</option>
+                                            <option value="2">Secretaría Ejecutiva de Administración y Finanzas</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label" for="state">Unidad:</label>
+                                        <select name="test" class="selectboxitForm" data-validate="required" data-message-required="Este campo es obligatorio.">
+                                            <option value="0"> Seleccione...</option>
+                                            <option value="1">Secretaría Ejecutiva de Administración y Finanzas</option>
+                                            <option value="2">Departamento de Bienes Nacionales</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label" for="state">Ubicación:</label>
+                                        <select name="test" class="selectboxitForm">
+                                            <option value="0"> Seleccione...</option>
+                                            <option value="1">Ubicación 1</option>
+                                            <option value="2">Ubicación 2</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="row" ng-if="busqBienes>=15">
+                                    <div class="form-group col-md-6">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                            <button class="btn btn-success br15" ng-click="buscarBienes()">
+                                                <i class="fa-search"></i><span>Buscar</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" ng-hide="selected">
+                                    <br>
+                                    <div class="col-md-6">
+                                        <div class="alert alert-warning"><strong>No hay resultados</strong></div>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-md-12" ng-hide="bienes.length==0">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p>Seleccione los bienes</p>
+                                            </div>
+                                        </div>
+
+                                        <table class="table table-bordered table-striped table-condensed table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th ng-repeat="columnName in columnNames2">{{columnName}}</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr ng-repeat="bien in bienes">
+                                                    <td>{{$index + 1}}</td>
+                                                    <th>
+                                                        <span>{{bien.numInv}}</span><br>
+                                                        <span class="badge badge-info" ng-if="bien.numFicha!=''">{{bien.numFicha}}</span>
+                                                    </th>
+                                                    <th>{{bien.descripcion}}<br>S: {{bien.serie}}</th>
+                                                    <th>{{bien.marca}}<br>{{bien.modelo}}</th>
+                                                    <th><span>{{bien.color}}</span></th>
+                                                    <th>L. <span class="fr">{{bien.valor}}</span></th>
+                                                    <th>
+                                                        <button class="btn btn-icon btn-blue btn-r" ng-if="bien.estado==0" ng-click="agregarBien($index)">
+                                                            <i class="fa-plus"></i>
+                                                        </button>
+                                                        <button class="btn btn-icon btn-success btn-r" ng-if="bien.estado==1">
+                                                            <i class="fa-check"></i>
+                                                        </button>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="col-md-12" ng-hide="bienesArray.length==0">
+                                        <div class="col-md-6">
+                                            <p>Bienes agregados:</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button id="" class="btn btn-blue btn-icon btn-icon-standalone btn-xs fr">
+                                                <i class="fa-check-square"></i><span>{{bienesArray.length}}</span>
+                                            </button>
+                                        </div>
+                                        <table class="table table-bordered table-striped table-condensed table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th ng-repeat="columnName in columnNames2">{{columnName}}</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr ng-repeat="bien in bienesArray">
+                                                    <td>{{$index + 1}}</td>
+                                                    <th>
+                                                        <span>{{bien.numInv}}</span><br>
+                                                        <span class="badge badge-info" ng-if="bien.numFicha!=''">{{bien.numFicha}}</span>
+                                                    </th>
+                                                    <th>{{bien.descripcion}}<br>S: {{bien.serie}}</th>
+                                                    <th>{{bien.marca}}<br>{{bien.modelo}}</th>
+                                                    <th><span>{{bien.color}}</span></th>
+                                                    <th>L. <span class="fr">{{bien.valor}}</span></th>
+                                                    <th>
+                                                        <button class="btn btn-icon btn-red btn-r" ng-click="quitarBien($index)">
+                                                            <i class="fa-remove"></i>
+                                                        </button>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane with-bg" id="fwv-43">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h4><strong>Detalles de la pérdida</strong></h4>
+                                        <div class="row">
+                                            <div class="col-md-5">Tipo: <strong>{{exp_tipo[exp.tipo]}}</strong></div>
+                                            <div class="col-md-3">Causa: <strong>{{causa[exp.causa-1]}}</strong></div>
+                                            <div class="col-md-4">Fecha y Hora: <strong>{{exp.fecha}} {{exp.hora}}</strong></div>
+                                        </div>
+                                        
+                                        <div ng-hide="exp.tipo==1">
+                                            <div>Centro universitario: <strong>{{centrosr[exp.interno.centro-1]}}</strong></div>
+                                            <div>Dependencia: <strong>{{dependencia[exp.interno.dep-1]}}</strong></div>
+                                            <div>Unidad: <strong>{{unidad[exp.interno.unidad-1]}}</strong></div>
+                                            <div>Ubicación específica: <strong>{{exp.interno.ubicacion}}</strong></div>
+                                        </div>
+                                        <div ng-hide="exp.tipo==0">
+                                            <div class="row">
+                                                <div div class="col-md-5">Departamento: <strong>{{exp.externo.depto}}</strong></div>
+                                                <div div class="col-md-7">Municipio: <strong>{{exp.externo.muni}}</strong></div>
+                                            </div>
+                                            <div>Dirección exacta: <strong>{{exp.externo.direccion}}</strong></div>
+                                        </div>
+                                        <div>Empleado(s): <strong ng-repeat="em in exp.empleados">{{em.nombre}}, </strong></div>
+                                    </div>
+                                    <br>
+                                    <div class="col-md-12">
+                                        <h4><strong>Documento de respaldo</strong></h4>
+                                        <div class="row">
+                                            <div class="col-md-12">Institución: <strong>{{institucion[exp.doc.institucion-1]}}</strong></div>
+                                            <div class="col-md-8">Número de documento o denuncia: <strong>{{exp.doc.numDoc}}</strong></div>
+                                            <div class="col-md-4">Fecha y Hora: <strong>{{exp.doc.fecha}} {{exp.doc.hora}}</strong></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12" ng-hide="exp.tipo==0">
+                                        <div class="row">
+                                            <div class="col-md-8">Permiso de salida: <strong>{{exp.permiso.numDoc}}</strong> 
+                                                <strong>{{exp.permiso.fecha}}</strong>
+                                            </div>
+                                            <div class="col-md-4">Motivo: <strong>{{exp.permiso.motivo}}</strong></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table table-bordered table-striped table-condensed table-hover" ng-if="bienesArray.length>0">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th ng-repeat="columnName in columnNames2">{{columnName}}</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="bien in bienesArray">
+                                                    <td>{{$index + 1}}</td>
+                                                    <th>
+                                                        <span>{{bien.numInv}}</span><br>
+                                                        <span class="badge badge-info" ng-if="bien.numFicha!=''">{{bien.numFicha}}</span>
+                                                    </th>
+                                                    <th><span>{{bien.descripcion}}</span><br><span>S: {{bien.serie}}</span></th>
+                                                    <th><span>{{bien.marca}}</span><br><span>{{bien.modelo}}</span></th>
+                                                    <th><span>{{bien.color}}</span></th>
+                                                    <th>L. <span class="fr">{{bien.valor}}</span></th>
+                                                    <th>
+                                                        <button class="btn btn-icon btn-red btn-r" ng-click="quitarBien($index)">
+                                                            <i class="fa-remove"></i>
+                                                        </button>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="col-md-6">
+                                            <p>Cant. de bienes: <strong>{{bienesArray.length}}</strong></p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="fr">Valor Total: <strong>L. {{total()}}</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="field-7" class="control-label">Descripción general de los hechos:</label>
+                                            <textarea class="form-control autogrow" id="field-7" ng-model="exp.obs" placeholder=""></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-if="bienesArray.length>0">
+                                    <div class="col-md-12">
+                                        <div class="btn-group fr">
+                                            <button type="button" class="btn btn-blue br15" ng-click="guardarExp()">
+                                                Guardar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <ul class="pager wizard">
+                                <li class="previous">
+                                    <a href="#" class="btn btn-icon entypo-left-open">
+                                        <i class="fa-chevron-left"></i>
+                                        <span> Regresar</span>
+                                    </a>
+                                </li>
+                                <li class="next">
+                                    <a href="#" class="btn btn-icon entypo-right-open">
+                                        <span>Continuar </span>
+                                        <i class="fa-chevron-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                </div>
+                </form>
             </div>
         </div>
     </div>
