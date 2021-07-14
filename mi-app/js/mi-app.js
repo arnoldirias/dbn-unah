@@ -68,7 +68,7 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
     $scope.busqBienes = 1;
     $scope.busqOptions = {
         text: "",
-        centro: 0,
+        centro: 1,
         dep: 0,
         unidad: 0,
         ubicacion: 0,
@@ -231,7 +231,6 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         { numInv: "E-1238", descripcion: "CPU", numFicha: "1238", marca: "HP", modelo: "PAVILON", color: "BLANCO", serie: "DUHD37DD", valor: 14567.91, razon: 1, obs: "", estado: 0, numEmpleado: 2, centro: 1, dep: 2, unidad: 1, r: 0 },
         { numInv: "E-1239", descripcion: "CPU", numFicha: "1239", marca: "HP", modelo: "PAVILON", color: "BLANCO", serie: "DUHD37DC", valor: 14567.91, razon: 1, obs: "", estado: 0, numEmpleado: 2, centro: 1, dep: 2, unidad: 1, r: 0 }
     ];
-    $scope.tableColumns = [];
     $scope.r = {
         centro: 1,
         unidad: 2,
@@ -254,11 +253,13 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
     $scope.exp_tipo = ["Pérdida interna", "Pérdida externa"];
     $scope.causa = ["Robo", "Hurto", "Negligencia", "Uso indebido", "Inundación", "Incendio", "Terremoto", "Desastre natural", "Caso fortuito", "Guerra"];
     $scope.institucion = ["Dirección Policial de Investigación", "COPECO", "BOMBEROS", "Colegio de Ingenieros"];
+    $scope.exp_array = [];
     $scope.exp = {
         numExp: "",
         edit: 0,
         tipo: 0,
         causa: 0,
+        estado: 0,
         fecha: "",
         hora: "",
         interno: { centro: 0, dep: 0, unidad: 0, ubicacion: "" },
@@ -272,7 +273,74 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         bienes: [],
         obs: ""
     };
-    $scope.expedientes = [];
+    $scope.expedientes = [{
+            numExp: "00115012021",
+            edit: 0,
+            tipo: 0,
+            estado: 0,
+            causa: 1,
+            fecha: "14/01/2021",
+            hora: "10:00",
+            bienes: [
+                { numInv: "E-1234", descripcion: "CPU", numFicha: "1234", marca: "HP", modelo: "PAVILON", color: "BLANCO", serie: "DUHD37DG", valor: 14567.91, razon: 1, obs: "", estado: 1, r: 0 },
+                { numInv: "E-1235", descripcion: "CPU", numFicha: "1235", marca: "HP", modelo: "PAVILON", color: "BLANCO", serie: "DUHD37DD", valor: 14567.91, razon: 1, obs: "", estado: 1, r: 0 },
+                { numInv: "E-1238", descripcion: "CPU", numFicha: "1235", marca: "HP", modelo: "PAVILON", color: "BLANCO", serie: "DUHD37DC", valor: 14567.91, razon: 1, obs: "", estado: 1, r: 0 },
+                { numInv: "E-1239", descripcion: "CPU", numFicha: "1235", marca: "HP", modelo: "PAVILON", color: "BLANCO", serie: "DUHD37DX", valor: 14567.91, razon: 1, obs: "", estado: 1, r: 0 }
+            ],
+            obs: "",
+            interno: { centro: 1, dep: 2, unidad: 2, ubicacion: "UBICACION 1" },
+            externo: { depto: 0, muni: 0, direccion: "" },
+            doc: { institucion: 1, numDoc: "DPI-1-2021", fecha: "14/01/2021", hora: "8:00", descripcion: "" },
+            permiso: { numDoc: "", motivo: "", fecha: "" },
+            empleados: [
+                { num: 1234, nombre: "JUAN FERNANDO AGUILERA", cargo: "PROFESOR AUXILIAR", ubicacion: "", img: "" }
+            ]
+        },
+        {
+            numExp: "00215012021",
+            edit: 0,
+            tipo: 1,
+            estado: 1,
+            causa: 2,
+            fecha: "14/01/2021",
+            hora: "10:00",
+            bienes: [
+                { numInv: "E-1234", descripcion: "CPU", numFicha: "1234", marca: "HP", modelo: "PAVILON", color: "BLANCO", serie: "DUHD37DG", valor: 14567.91, razon: 1, obs: "", estado: 1, r: 0 },
+                { numInv: "E-1235", descripcion: "CPU", numFicha: "1235", marca: "HP", modelo: "PAVILON", color: "BLANCO", serie: "DUHD37DS", valor: 14567.91, razon: 1, obs: "", estado: 1, r: 0 }
+            ],
+            obs: "",
+            interno: { centro: 0, dep: 0, unidad: 0, ubicacion: "" },
+            externo: { depto: 1, muni: 1, direccion: "Tegucigalpa" },
+            doc: { institucion: 1, numDoc: "DPI-1-2021", fecha: "14/01/2021", hora: "8:00", descripcion: "" },
+            permiso: { numDoc: "DBN-1O1-2021", motivo: "", fecha: "10/01/2021" },
+            empleados: [
+                { num: 1234, nombre: "JUAN FERNANDO AGUILERA", cargo: "PROFESOR AUXILIAR", ubicacion: "", img: "" },
+                { num: 1235, nombre: "ROSSY PAZ", cargo: "PROFESOR TITULAR", ubicacion: "", img: "" }
+            ]
+        },
+        {
+            numExp: "00316012021",
+            edit: 0,
+            tipo: 0,
+            estado: 2,
+            causa: 2,
+            fecha: "14/01/2021",
+            hora: "10:00",
+            bienes: [
+                { numInv: "E-1234", descripcion: "CPU", numFicha: "1234", marca: "HP", modelo: "PAVILON", color: "BLANCO", serie: "DUHD37DG", valor: 14567.91, razon: 1, obs: "", estado: 1, r: 0 },
+                { numInv: "E-1235", descripcion: "CPU", numFicha: "1235", marca: "HP", modelo: "PAVILON", color: "BLANCO", serie: "DUHD37DS", valor: 14567.91, razon: 1, obs: "", estado: 1, r: 0 }
+            ],
+            obs: "",
+            interno: { centro: 1, dep: 2, unidad: 2, ubicacion: "UBICACION 1" },
+            externo: { depto: 1, muni: 1, direccion: "Tegucigalpa" },
+            doc: { institucion: 1, numDoc: "DPI-1-2021", fecha: "14/01/2021", hora: "8:00", descripcion: "" },
+            permiso: { numDoc: "DBN-1O1-2021", motivo: "", fecha: "10/01/2021" },
+            empleados: [
+                { num: 1234, nombre: "JUAN FERNANDO AGUILERA", cargo: "PROFESOR AUXILIAR", ubicacion: "", img: "" },
+                { num: 1235, nombre: "ROSSY PAZ", cargo: "PROFESOR TITULAR", ubicacion: "", img: "" }
+            ]
+        }
+    ];
 
     //nueva solicitud
     $scope.s = { centro: 0, dep: 0, unidad: 0, numDoc: "", fechaDoc: "", nombre: "", numEmpleado: "", bienes: [], obs: "", estado: 0 };
@@ -404,12 +472,7 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         $("#tabUnidad").click();
         cerrarModal.click();
         toastr.success('<i class="fa-file-text br15"></i> Número de solicitud: <strong>{{result.data}}</strong><br> Notificación enviada a: <br><i class="fa fa-envelope"></i> empleado@unah.edu.hn',
-            'Solicitud guardada con éxito', {
-                "positionClass": "toast-bottom-right",
-                "showDuration": "4000",
-                "hideDuration": "1000",
-                "timeOut": "10000"
-            });
+            'Solicitud guardada con éxito', { "positionClass": "toast-bottom-right", "showDuration": "4000", "hideDuration": "1000", "timeOut": "10000" });
     }
 
     //Actualiza los datos de la solicitud guardada como borrador
@@ -424,14 +487,10 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         btn_modalvermas.click();
         cerrarModal.click();
         toastr.success('<i class="fa-file-text br15"></i> Número de solicitud: <strong>{{result.data}}</strong><br> Notificación enviada a: <br><i class="fa fa-envelope"></i> empleado@unah.edu.hn',
-            'Solicitud editada con éxito', {
-                "positionClass": "toast-bottom-right",
-                "showDuration": "4000",
-                "hideDuration": "1000",
-                "timeOut": "10000"
-            });
+            'Solicitud editada con éxito', { "positionClass": "toast-bottom-right", "showDuration": "4000", "hideDuration": "1000", "timeOut": "10000" });
     }
 
+    //Abre una nueva pestaña con la solicitud generada
     $scope.generarSolicitud = function() {
         window.open("https://drive.google.com/file/d/12sDw--uOY8FSIDvJs_QQUluN4Km8S1dH/view", '_blank');
     }
@@ -446,16 +505,11 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         if ($scope.value == 0) {
             $scope.s = $scope.s2;
             $("#tabUnidad").click();
-            jQuery('#modal-6').modal('show', {
-                backdrop: 'static'
-            });
+            jQuery('#modal-6').modal('show', { backdrop: 'static' });
         }
         if ($scope.value == 1) {
-            jQuery('#modalPropp').modal('show', {
-                backdrop: 'static'
-            });
+            jQuery('#modalPropp').modal('show', { backdrop: 'static' });
             $("#tabDetalles").click();
-
         }
 
     }
@@ -470,22 +524,18 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         if ($scope.value == 0 && index == 1) {
             $scope.s = $scope.s2;
             $("#tabUnidad").click();
-            jQuery('#modal-6').modal('show', {
-                backdrop: 'static'
-            });
+            jQuery('#modal-6').modal('show', { backdrop: 'static' });
+
         } else if ($scope.value == 1 && index == 1) {
             $("#tabDetalles").click();
-            jQuery('#modalPropp').modal('show', {
-                backdrop: 'static'
-            });
+            jQuery('#modalPropp').modal('show', { backdrop: 'static' });
+
         } else if ($scope.value == 2 && index == 1) {
-            jQuery('#modalBI').modal('show', {
-                backdrop: 'static'
-            });
+            jQuery('#modalBI').modal('show', { backdrop: 'static' });
+
         } else if ($scope.value == 3 && index == 1) {
-            jQuery('#modalAB').modal('show', {
-                backdrop: 'static'
-            });
+            jQuery('#modalAB').modal('show', { backdrop: 'static' });
+
         } else {
             $scope.tabSelected = index;
             $scope.tipoBusqueda = $scope.tableSearch[$scope.value][$scope.tabSelected].value;
@@ -535,7 +585,6 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
 
     //Quita el bien de la lista (bienesArray) y modifica su estado en los bienes encontrados
     $scope.quitarBien = function(i) {
-
         for (var index = 0; index < $scope.bienes.length; index++) {
             if ($scope.bienesArray[i].numInv == $scope.bienes[index].numInv) {
                 $scope.bienes[index].estado = 0;
@@ -544,7 +593,7 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         $scope.bienesArray.splice(i, 1);
     }
 
-    //Busqueda
+    //Busqueda Avanzada de bienes
     $scope.buscarBienes = function() {
         $scope.selected = 0;
         $scope.bienes = [];
@@ -557,7 +606,6 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
                     $scope.selected = 1;
                     return;
                 }
-
             }
         }
 
@@ -568,7 +616,6 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
                     $scope.bienes.push($scope.totalBienes[index]);
                     $scope.selected = 1;
                 }
-
             }
         }
 
@@ -579,28 +626,20 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
                     $scope.bienes.push($scope.totalBienes[index]);
                     $scope.selected = 1;
                 }
-
             }
         }
+
     }
 
+    //Busqueda general de todos los modulos
     $scope.busqGeneral = function() {
         $scope.selected = 0;
         $scope.c = [];
         $scope.s_array = [];
         $scope.bienesArray = [];
+        $scope.exp_array = [];
 
-        //numEmpleado
-        if (($scope.value == 0) && ($scope.tipoBusqueda == 2)) {
-            for (var index = 0; index < $scope.totalSolicitudes.length; index++) {
-                if ($scope.busqOptions.text == $scope.totalSolicitudes[index].numEmpleado) {
-                    $scope.s_array.push($scope.totalSolicitudes[index]);
-                    $scope.selected = 1;
-                }
-            }
-        }
-
-        //Numero de solicitud
+        //Búsqueda por Numero de solicitud
         if (($scope.value == 0) && ($scope.tipoBusqueda == 3)) {
             for (var index = 0; index < $scope.totalSolicitudes.length; index++) {
                 if ($scope.busqOptions.text == $scope.totalSolicitudes[index].num) {
@@ -611,19 +650,27 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
             }
         }
 
-        //Numero de oficio
+        //Búsqueda de solicitud por numEmpleado
+        if (($scope.value == 0) && ($scope.tipoBusqueda == 2)) {
+            for (var index = 0; index < $scope.totalSolicitudes.length; index++) {
+                if ($scope.busqOptions.text == $scope.totalSolicitudes[index].numEmpleado) {
+                    $scope.s_array.push($scope.totalSolicitudes[index]);
+                    $scope.selected = 1;
+                }
+            }
+        }
+
+        //Búsqueda de solicitud por Numero de oficio
         if (($scope.value == 0) && ($scope.tipoBusqueda == 4) && ($scope.tabSelected == 0)) {
             for (var index = 0; index < $scope.totalSolicitudes.length; index++) {
                 if ($scope.busqOptions.text == $scope.totalSolicitudes[index].numDoc) {
                     $scope.s_array.push($scope.totalSolicitudes[index]);
                     $scope.selected = 1;
-
-                    console.log($scope.busqOptions.text == $scope.totalSolicitudes[index].numDoc);
                 }
             }
         }
 
-        //Centro
+        //Búsqueda de solicitud por Centro
         if (($scope.value == 0) && ($scope.tipoBusqueda == 15) && ($scope.tabSelected == 0)) {
             for (var index = 0; index < $scope.totalSolicitudes.length; index++) {
                 if ($scope.busqOptions.centro == $scope.totalSolicitudes[index].centro) {
@@ -633,7 +680,7 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
             }
         }
 
-        //Dependencia
+        //Búsqueda de solicitud por Dependencia
         if (($scope.value == 0) && ($scope.tipoBusqueda == 16) && ($scope.tabSelected == 0)) {
             for (var index = 0; index < $scope.totalSolicitudes.length; index++) {
                 if ($scope.busqOptions.dep == $scope.totalSolicitudes[index].dep) {
@@ -643,7 +690,7 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
             }
         }
 
-        //Unidad
+        //Búsqueda de solicitud por Unidad
         if (($scope.value == 0) && ($scope.tipoBusqueda == 17) && ($scope.tabSelected == 0)) {
             for (var index = 0; index < $scope.totalSolicitudes.length; index++) {
                 if ($scope.busqOptions.unidad == $scope.totalSolicitudes[index].unidad) {
@@ -653,23 +700,55 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
             }
         }
 
-        //Numero de comprobante
-        if (($scope.value == 0) && ($scope.tipoBusqueda == 5) && ($scope.tabSelected == 2)) {
-            for (var index = 0; index < $scope.comprobantes.length; index++) {
-                if ($scope.busqOptions.text == $scope.comprobantes[index].numComprobante) {
-                    $scope.c.push($scope.comprobantes[index]);
-                    $scope.bienesArray = $scope.totalSolicitudes[$scope.c.idSolicitud].bienes;
+        //Búsqueda por Numero de expediente
+        if (($scope.value == 1) && ($scope.tipoBusqueda == 6)) {
+            for (var index = 0; index < $scope.expedientes.length; index++) {
+                if ($scope.busqOptions.text == $scope.expedientes[index].numExp) {
+                    $scope.exp_array.push($scope.expedientes[index]);
+                    $scope.bienesArray = $scope.expedientes[index].bienes;
                     $scope.selected = 1;
-                    return;
+                    return O;
                 }
             }
         }
 
-        //numEmpleado vs Comprobantes
-        if (($scope.value == 0) && ($scope.tipoBusqueda == 2) && ($scope.tabSelected == 2)) {
-            for (var index = 0; index < $scope.comprobantes[index].length; index++) {
-                if ($scope.busqOptions.text == $scope.comprobantes[index].numEmpleado) {
-                    $scope.c.push($scope.comprobantes[index]);
+        //Búsqueda de expedientes por empleado
+        if (($scope.value == 1) && ($scope.tipoBusqueda == 2)) {
+            for (var index = 0; index < $scope.expedientes.length; index++) {
+                for (var em = 0; em < $scope.expedientes[index].empleados.length; em++) {
+                    if ($scope.busqOptions.text == $scope.expedientes[index].empleados[em].num) {
+                        $scope.exp_array.push($scope.expedientes[index]);
+                        $scope.selected = 1;
+                    }
+                }
+            }
+        }
+
+        //Búsqueda de expedientes por centro
+        if (($scope.value == 1) && ($scope.tipoBusqueda == 15)) {
+            for (var index = 0; index < $scope.expedientes.length; index++) {
+                if ($scope.busqOptions.centro == $scope.expedientes[index].interno.centro) {
+                    $scope.exp_array.push($scope.expedientes[index]);
+                    $scope.selected = 1;
+                }
+            }
+        }
+
+        //Búsqueda de expedientes por dependencia
+        if (($scope.value == 1) && ($scope.tipoBusqueda == 16)) {
+            for (var index = 0; index < $scope.expedientes.length; index++) {
+                if ($scope.busqOptions.dep == $scope.expedientes[index].interno.dep) {
+                    $scope.exp_array.push($scope.expedientes[index]);
+                    $scope.selected = 1;
+                }
+            }
+        }
+
+        //Búsqueda de expedientes por unidad
+        if (($scope.value == 1) && ($scope.tipoBusqueda == 17)) {
+            for (var index = 0; index < $scope.expedientes.length; index++) {
+                if ($scope.busqOptions.unidad == $scope.expedientes[index].interno.unidad) {
+                    $scope.exp_array.push($scope.expedientes[index]);
                     $scope.selected = 1;
                 }
             }
@@ -677,42 +756,38 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
 
     }
 
+    //Desplega formulario de edicion de la solicitud
     $scope.editarSolicitud = function(i) {
         $scope.indexSolicitud = i;
         $scope.s = $scope.s_array[$scope.indexSolicitud];
         $scope.bienesArray = $scope.s_array[$scope.indexSolicitud].bienes;
         $scope.resetBusqOptions();
         $("#btn_modalvermas").click();
-
-        jQuery('#modal-edicionSolicitud').modal('show', {
-            backdrop: 'static'
-        });
+        jQuery('#modal-edicionSolicitud').modal('show', { backdrop: 'static' });
     }
 
+    //Desplegar modal Ver mas
     $scope.modalVermas = function(i) {
         $scope.indexSolicitud = i;
         $scope.s = $scope.s_array[$scope.indexSolicitud];
         $scope.bienesArray = $scope.s_array[$scope.indexSolicitud].bienes;
-
-        jQuery('#modalVermas').modal('show', {
-            backdrop: 'static'
-        });
+        jQuery('#modalVermas').modal('show', { backdrop: 'static' });
     }
 
+    //Muestra el modal de recepcion de bienes
     $scope.modalRecepcion = function(i) {
         $scope.indexSolicitud = i;
         $scope.s = $scope.s_array[$scope.indexSolicitud];
         $scope.bienesArray = $scope.s_array[$scope.indexSolicitud].bienes;
-
-        jQuery('#modal-recepcion').modal('show', {
-            backdrop: 'static'
-        });
-
+        jQuery('#modal-recepcion').modal('show', { backdrop: 'static' });
     }
 
+    //Actualiza el estado de recepción del bien
     $scope.confirmarRecepcion = function(i) {
         $scope.bienesArray[i].r = !$scope.bienesArray[i].r;
     }
+
+    //Cuenta los bienes que han sido seleccionados anteriormente y los marcados recientemente
     $scope.contarBienes = function() {
         var i = 0;
         for (var index = 0; index < $scope.bienesArray.length; index++) {
@@ -722,6 +797,8 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         }
         return i;
     }
+
+    //Valor de los bienes seleccionados
     $scope.valorBienes = function() {
         var i = 0;
         for (var index = 0; index < $scope.bienesArray.length; index++) {
@@ -731,6 +808,8 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         }
         return i;
     }
+
+    //Genera el comprobante según el estado de la solicitud (pendiente, completado)
     $scope.generarComprobante = function(i) {
 
         for (var index = 0; index < $scope.bienesArray.length; index++) {
@@ -745,25 +824,17 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
             $scope.totalSolicitudes[$scope.indexSolicitud] = $scope.s;
 
             toastr.success('como descargo pendiente.',
-                'Solicitud guardada exitosamente', {
-                    "positionClass": "toast-bottom-right",
-                    "showDuration": "4000",
-                    "hideDuration": "1000",
-                    "timeOut": "10000"
-                });
+                'Solicitud guardada exitosamente', { "positionClass": "toast-bottom-right", "showDuration": "4000", "hideDuration": "1000", "timeOut": "10000" });
 
         } else if (i == 1) {
             $scope.s.estado = 5;
             $scope.totalSolicitudes[$scope.indexSolicitud] = $scope.s;
 
             toastr.success('<i class="fa-file-text br15"></i> Número de comprobante: <strong>{{result.data}}</strong>',
-                'Descargo completado exitosamente', {
-                    "positionClass": "toast-bottom-right",
-                    "showDuration": "4000",
-                    "hideDuration": "1000",
-                    "timeOut": "10000"
-                });
+                'Descargo completado exitosamente', { "positionClass": "toast-bottom-right", "showDuration": "4000", "hideDuration": "1000", "timeOut": "10000" });
+
             window.open("https://drive.google.com/file/d/1yatgL37cSNxQRXxSOac09ZlTPiDpadLk/view?usp=sharing", '_blank');
+
         } else {
             window.open("https://drive.google.com/file/d/1yatgL37cSNxQRXxSOac09ZlTPiDpadLk/view?usp=sharing", '_blank');
         }
@@ -774,35 +845,25 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         btn_modalvermas.click();
         cerrarModal.click();
     }
+
+    //Muestra Modal Ver Comprobante
     $scope.verComprobante = function(index) {
-        console.log(index);
-        console.log($scope.s_array[index].idComprobante);
         $scope.c = $scope.comprobantes[$scope.s_array[index].idComprobante];
-        console.log($scope.c);
         $scope.bienesArray = $scope.s_array[index].bienes;
-        jQuery('#modal-comprobante').modal('show', {
-            backdrop: 'static'
-        });
-    }
-    $scope.dropAction = function(i) {
-        switch (i) {
-            case 0:
-                break;
-            default:
-                break;
-        }
+        jQuery('#modal-comprobante').modal('show', { backdrop: 'static' });
     }
 
+    //Muestra los filtros del modulo descargo
     $scope.verFiltroDescargo = function(i) {
         if (i == 0) {
             return !(($scope.value == 0) && ($scope.tabSelected == 2));
         } else if (i == 1) {
             return !(($scope.value == 0) && ($scope.tabSelected == 2 || $scope.tabSelected == 3))
         }
-
         return !(($scope.value == 0) && ($scope.tabSelected == 3));
     }
 
+    //Genera el reporte según el formato seleccionado
     $scope.generarReporte = function(i) {
         if ($scope.value == 0) {
             if (i == 0) {
@@ -812,10 +873,20 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
                 window.open("https://drive.google.com/file/d/1fB_c3X04f0fVuBP2S9dVYDUBk2rxzO2j/view?usp=sharing", '_blank');
             }
         }
+    }
+
+    //Generar formulario
+    $scope.generarResumenExp = function(i) {
+        if (i == 0) {
+            window.open("https://drive.google.com/file/d/1OEHp3PGN5F9JrhdyDlg6UfNK3WLVH2AZ/view?usp=sharing", '_blank');
+        }
+        if (i == 1) {
+            window.open("", '_blank');
+        }
 
     }
 
-    //Guarda la nueva solicitud de descargo
+    //Guarda el nuevo expediente
     $scope.guardarExp = function() {
         $scope.exp.bienes = $scope.bienesArray;
         $scope.expedientes.push($scope.exp);
@@ -823,6 +894,7 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
             numExp: "",
             edit: 0,
             tipo: 0,
+            estado: 0,
             causa: 0,
             fecha: "",
             hora: "",
@@ -842,12 +914,13 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         $("#tabDetalles").click();
         cerrarModalExp.click();
         toastr.success('<i class="fa-file-text br15"></i> Número de Expediente: <strong>{{result.data}}</strong>',
-            'Expediente guardado con éxito', {
-                "positionClass": "toast-bottom-right",
-                "showDuration": "4000",
-                "hideDuration": "1000",
-                "timeOut": "10000"
-            });
+            'Expediente guardado con éxito', { "positionClass": "toast-bottom-right", "showDuration": "4000", "hideDuration": "1000", "timeOut": "10000" });
     }
 
+    //Desplegar modal Ver mas Propiedad perdida
+    $scope.modalVerMasPropp = function(i) {
+        $scope.exp = $scope.exp_array[i];
+        $scope.bienesArray = $scope.exp.bienes;
+        jQuery('#modal_vermas_Propp').modal('show', { backdrop: 'static' });
+    }
 });

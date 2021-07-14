@@ -65,7 +65,7 @@
             <!-- ##main menu -->
             <ul class="navbar-nav">
                 <li>
-                    <a href="#"><i class="linecons-note"></i><span class="title">Inventario</span></a>
+                    <a href="#"><i class="linecons-note"></i><span class="title">Módulos</span></a>
                     <ul id="myMainMenu">
                         <li ng-repeat="cat in mi_app">
                             <a href="#" ng-click="select(cat.index)"><span class="title">{{cat.name}}</span></a>
@@ -844,6 +844,179 @@
                         </div>
 
                     </div>
+
+                    <!--##Panel Expediente (1)-->
+                    <div class="row" ng-if="exp_array.length==1" ng-hide="value!=1 || tabSelected !=0">
+                        <div class="col-md-12">
+                            <div class="panel panel-color panel-success br15">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Expediente N° {{exp_array[0].numExp}}</h3>
+                                    <div class="panel-options">
+                                        <div class="btn-group rigth-dropdown">
+                                            <button type="button" id="btnDropdown" class="btn dropdown-toggle" data-toggle="dropdown">
+                                                <span class="fa-ellipsis-v"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-blue drop-left br15" role="menu">
+                                                <li><a href="#" ng-click="">Imprimir resumen del expediente</a></li>
+                                                <li><a href="#" ng-click="generarResumenExp(0)">Imprimir formulario</a></li>
+                                                <li><a href="#" ng-if="exp_array[0].estado==0" ng-click="">Editar expediente</a></li>
+                                                <li><a href="#" ng-if="exp_array[0].estado==0" ng-click="">Registrar dictamen</a></li>
+                                                <li><a href="#" ng-if="exp_array[0].estado==1" ng-click="">Marcar como finalizado</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-8"><h4><strong>Detalles de la pérdida</strong></h4></div>
+                                                <div class="col-md-4">Estado: 
+                                                    <span class="badge" ng-if="exp_array[0].estado==0">SIN DICTAMINAR</span>
+                                                    <span class="badge badge-warning" ng-if="exp_array[0].estado==1">DICTAMINADO</span>
+                                                    <span class="badge badge-info" ng-if="exp_array[0].estado==2">FINALIZADO</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-5">Tipo: <strong>{{exp_tipo[exp_array[0].tipo]}}</strong></div>
+                                                <div class="col-md-3">Causa: <strong>{{causa[exp_array[0].causa-1]}}</strong></div>
+                                                <div class="col-md-4">Fecha y Hora: <strong>{{exp_array[0].fecha}} {{exp_array[0].hora}}</strong></div>
+                                            </div>
+                                            
+                                            <div ng-hide="exp_array[0].tipo==1">
+                                                <div>Centro universitario: <strong>{{centrosr[exp_array[0].interno.centro-1]}}</strong></div>
+                                                <div>Dependencia: <strong>{{dependencia[exp_array[0].interno.dep-1]}}</strong></div>
+                                                <div>Unidad: <strong>{{unidad[exp_array[0].interno.unidad-1]}}</strong></div>
+                                                <div>Ubicación específica: <strong>{{exp_array[0].interno.ubicacion}}</strong></div>
+                                            </div>
+                                            <div ng-hide="exp_array[0].tipo==0">
+                                                <div class="row">
+                                                    <div div class="col-md-5">Departamento: <strong>{{exp_array[0].externo.depto}}</strong></div>
+                                                    <div div class="col-md-7">Municipio: <strong>{{exp_array[0].externo.muni}}</strong></div>
+                                                </div>
+                                                <div>Dirección exacta: <strong>{{exp_array[0].externo.direccion}}</strong></div>
+                                            </div>
+                                            <div>Empleado(s): <strong ng-repeat="em in exp_array[0].empleados">{{em.nombre}}, </strong></div>
+                                        </div>
+                                        <br>
+                                        <div class="col-md-12">
+                                            <h4><strong>Documento de respaldo</strong></h4>
+                                            <div class="row">
+                                                <div class="col-md-12">Institución: <strong>{{institucion[exp_array[0].doc.institucion-1]}}</strong></div>
+                                                <div class="col-md-8">Número de documento o denuncia: <strong>{{exp_array[0].doc.numDoc}}</strong></div>
+                                                <div class="col-md-4">Fecha y Hora: <strong>{{exp_array[0].doc.fecha}} {{exp_array[0].doc.hora}}</strong></div>
+                                            </div>
+                                        </div>
+    
+                                        <div class="col-md-12" ng-hide="exp_array[0].tipo==0">
+                                            <div class="row">
+                                                <div class="col-md-8">Permiso de salida: <strong>{{exp_array[0].permiso.numDoc}}</strong> 
+                                                    <strong>{{exp_array[0].permiso.fecha}}</strong>
+                                                </div>
+                                                <div class="col-md-4">Motivo: <strong>{{exp_array[0].permiso.motivo}}</strong></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <table class="table table-bordered table-striped table-condensed table-hover" ng-if="bienesArray.length>0">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th ng-repeat="columnName in columnNames2">{{columnName}}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="bien in bienesArray">
+                                                        <td>{{$index + 1}}</td>
+                                                        <th>
+                                                            <span>{{bien.numInv}}</span><br>
+                                                            <span class="badge badge-info" ng-if="bien.numFicha!=''">{{bien.numFicha}}</span>
+                                                        </th>
+                                                        <th><span>{{bien.descripcion}}</span><br><span>S: {{bien.serie}}</span></th>
+                                                        <th><span>{{bien.marca}}</span><br><span>{{bien.modelo}}</span></th>
+                                                        <th><span>{{bien.color}}</span></th>
+                                                        <th>L. <span class="fr">{{bien.valor}}</span></th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="col-md-6">
+                                                <p>Cant. de bienes: <strong>{{bienesArray.length}}</strong></p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="fr">Valor Total: <strong>L. {{total()}}</strong></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-12" ng-if="exp_array[0].obs != ''">
+                                            <div class="form-group">
+                                                <label for="field-7" class="control-label">Descripción general de los hechos:</label>
+                                                <p>{{exp_array[0].obs}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--##Table Expedientes(>1 solicitudes)-->
+                    <div class="row" ng-hide="value!=1 || tabSelected !=0">
+                        <div class="col-md-12">
+                            <table class="table table-bordered table-striped table-condensed table-hover" ng-if="exp_array.length>1">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>N° Expediente</th>
+                                        <th>Tipo de pérdida</th>
+                                        <th>Empleado(s)</th>
+                                        <th>Ubicación</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="expediente in exp_array">
+                                        <td>{{$index + 1}}</td>
+                                        <th>
+                                            <span>{{expediente.numExp}}</span><br>
+                                            <span class="badge" ng-if="expediente.estado==0">SIN DICTAMINAR</span>
+                                            <span class="badge badge-warning" ng-if="expediente.estado==1">DICTAMINADO</span>
+                                            <span class="badge badge-info" ng-if="expediente.estado==2">FINALIZADO</span>
+                                        </th>
+                                        <th><span>{{exp_tipo[exp_array[$index].tipo]}}</span><br>{{causa[exp_array[$index].causa-1]}}</th>
+                                        <th><div ng-repeat="em in exp_array[$index].empleados">{{em.nombre}}</div></th>
+                                        <th>
+                                            <span ng-hide="exp_array[$index].tipo==0">
+                                                <div class="row">
+                                                    <div><strong>{{exp_array[$index].externo.depto}}</strong></div>
+                                                    <div><strong>{{exp_array[$index].externo.muni}}</strong></div>
+                                                </div>
+                                            </span>
+                                            <span ng-hide="exp_array[$index].tipo==1">
+                                                <div><strong>{{centrosr[exp_array[$index].interno.centro-1]}}</strong></div>
+                                                <div><strong>{{dependencia[exp_array[$index].interno.dep-1]}}</strong></div>
+                                                <div><strong>{{unidad[exp_array[$index].interno.unidad-1]}}</strong></div>
+                                            </span>
+                                            
+                                        </th>
+                                        <th>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-r" ng-click="modalVerMasPropp($index)">
+                                                    <span class="fa-arrow-right"></span>
+                                                </button>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -2741,6 +2914,129 @@
                         </div>
                 </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ver mas Propiedad perdida -->
+    <div class="modal fade" id="modal_vermas_Propp">
+        <div class="modal-dialog" id="modalVerMasPropp">
+            <div class="panel panel-color panel-success br15">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Expediente N° {{exp.numExp}}</h3>
+                    <div class="panel-options">
+                        <div class="btn-group rigth-dropdown">
+                            <button type="button" id="btnDropdown" class="btn dropdown-toggle" data-toggle="dropdown">
+                                <span class="fa-ellipsis-v"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-blue drop-left br15" role="menu">
+                                <li><a href="#" ng-click="">Imprimir resumen del expediente</a></li>
+                                <li><a href="#" ng-click="generarResumenExp(0)">Imprimir formulario</a></li>
+                                <li><a href="#" ng-if="exp.estado==0" ng-click="">Editar expediente</a></li>
+                                <li><a href="#" ng-if="exp.estado==0" ng-click="">Registrar dictamen</a></li>
+                                <li><a href="#" ng-if="exp.estado==1" ng-click="">Marcar como finalizado</a></li>
+                            </ul>
+                            <button type="button" id="btn_modalvermaspropp" class="btn" data-dismiss="modal" aria-hidden="true">
+                                <span class="fa-close"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-8"><h4><strong>Detalles de la pérdida</strong></h4></div>
+                                <div class="col-md-4">Estado: 
+                                    <span class="badge" ng-if="exp.estado==0">SIN DICTAMINAR</span>
+                                    <span class="badge badge-warning" ng-if="exp.estado==1">DICTAMINADO</span>
+                                    <span class="badge badge-info" ng-if="exp.estado==2">FINALIZADO</span>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-5">Tipo: <strong>{{exp_tipo[exp.tipo]}}</strong></div>
+                                <div class="col-md-3">Causa: <strong>{{causa[exp.causa-1]}}</strong></div>
+                                <div class="col-md-4">Fecha y Hora: <strong>{{exp.fecha}} {{exp.hora}}</strong></div>
+                            </div>
+                            
+                            <div ng-hide="exp.tipo==1">
+                                <div>Centro universitario: <strong>{{centrosr[exp.interno.centro-1]}}</strong></div>
+                                <div>Dependencia: <strong>{{dependencia[exp.interno.dep-1]}}</strong></div>
+                                <div>Unidad: <strong>{{unidad[exp.interno.unidad-1]}}</strong></div>
+                                <div>Ubicación específica: <strong>{{exp.interno.ubicacion}}</strong></div>
+                            </div>
+                            <div ng-hide="exp.tipo==0">
+                                <div class="row">
+                                    <div div class="col-md-5">Departamento: <strong>{{exp.externo.depto}}</strong></div>
+                                    <div div class="col-md-7">Municipio: <strong>{{exp.externo.muni}}</strong></div>
+                                </div>
+                                <div>Dirección exacta: <strong>{{exp.externo.direccion}}</strong></div>
+                            </div>
+                            <div>Empleado(s): <strong ng-repeat="em in exp.empleados">{{em.nombre}}, </strong></div>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <h4><strong>Documento de respaldo</strong></h4>
+                            <div class="row">
+                                <div class="col-md-12">Institución: <strong>{{institucion[exp.doc.institucion-1]}}</strong></div>
+                                <div class="col-md-8">Número de documento o denuncia: <strong>{{exp.doc.numDoc}}</strong></div>
+                                <div class="col-md-4">Fecha y Hora: <strong>{{exp.doc.fecha}} {{exp.doc.hora}}</strong></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" ng-hide="exp.tipo==0">
+                            <div class="row">
+                                <div class="col-md-8">Permiso de salida: <strong>{{exp.permiso.numDoc}}</strong> 
+                                    <strong>{{exp.permiso.fecha}}</strong>
+                                </div>
+                                <div class="col-md-4">Motivo: <strong>{{exp.permiso.motivo}}</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered table-striped table-condensed table-hover" ng-if="bienesArray.length>0">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th ng-repeat="columnName in columnNames2">{{columnName}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="bien in bienesArray">
+                                        <td>{{$index + 1}}</td>
+                                        <th>
+                                            <span>{{bien.numInv}}</span><br>
+                                            <span class="badge badge-info" ng-if="bien.numFicha!=''">{{bien.numFicha}}</span>
+                                        </th>
+                                        <th><span>{{bien.descripcion}}</span><br><span>S: {{bien.serie}}</span></th>
+                                        <th><span>{{bien.marca}}</span><br><span>{{bien.modelo}}</span></th>
+                                        <th><span>{{bien.color}}</span></th>
+                                        <th>L. <span class="fr">{{bien.valor}}</span></th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="col-md-6">
+                                <p>Cant. de bienes: <strong>{{bienesArray.length}}</strong></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="fr">Valor Total: <strong>L. {{total()}}</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12" ng-if="exp.obs != ''">
+                            <div class="form-group">
+                                <label for="field-7" class="control-label">Descripción general de los hechos:</label>
+                                <p>{{exp.obs}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
