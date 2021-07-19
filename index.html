@@ -75,7 +75,7 @@
                 <li>
                     <a href="#"><i class="linecons-params"></i><span class="title">Mantenimiento</span></a>
                     <ul>
-                        <li><a href="#"><span class="title">Especies</span></a></li>
+                        <li ng-repeat="item in mantenimiento"><a href="#"><span class="title">{{item}}</span></a></li>
                     </ul>
                 </li>
             </ul>
@@ -187,9 +187,9 @@
                           </select>
                         </div>
 
-                        <div class="form-group col-md-6" ng-hide="verFiltroDescargo(1)">
+                        <div class="form-group col-md-6">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-3" ng-hide="verFiltroDescargo(5)">
                                     <label class="control-label" for="state">Año:</label>
                                     <select name="test" class="selectboxit" ng-model="busqOptions.anio" id="year">
                                     <option value="0">Todos</option>
@@ -197,7 +197,7 @@
                                     <option value="2022">2022</option>
                                     </select>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-5" ng-hide="verFiltroDescargo(1)">
                                     <label class="control-label" for="state">Tipo de solicitud:</label>
                                     <select name="test" class="selectboxit" ng-model="busqOptions.estado" id="estadoSolicitud">
                                     <option value="0">Todos</option>
@@ -208,7 +208,7 @@
                                     <option value="5">Descargos completados</option>
                                     </select>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4" ng-hide="verFiltroDescargo(1)">
                                     <label class="control-label" for="state">Bienes:</label>
                                     <select name="test" class="selectboxit" ng-model="busqOptions.razon">
                                     <option value="0">Todos</option>
@@ -217,13 +217,30 @@
                                     <option value="3">Excedentes</option>
                                     </select>
                                 </div>
+                                <div class="col-md-4" ng-hide="verFiltroDescargo(3)">
+                                    <label class="control-label" for="state">Estado:</label>
+                                    <select name="test" class="selectboxit" ng-model="busqOptions.expEstado" id="expEstado">
+                                    <option value="0">Todos</option>
+                                    <option value="1">Sin dictaminar</option>
+                                    <option value="2">Dictaminado</option>
+                                    <option value="3">Finalizado</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-5" ng-hide="verFiltroDescargo(3)">
+                                    <label class="control-label" for="state">Tipo de pérdida:</label>
+                                    <select name="test" class="selectboxit" ng-model="busqOptions.expTipo" id="expTipo">
+                                    <option value="0">Todos</option>
+                                    <option value="1">Sin responsabilidad</option>
+                                    <option value="2">Con responsabilidad</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!--##Busqueda Button Buscar-->
                     <div class="row" ng-if="tipoBusqueda>=15">
-                        <div class="form-group col-md-6" ng-hide="!verFiltroDescargo(1)">
+                        <div class="form-group col-md-6" ng-hide="!verFiltroDescargo(5)">
                             <div class="input-group">
                                 <span class="input-group-btn">
                                 <button class="btn btn-success br15" ng-click="busqGeneral()">
@@ -236,7 +253,7 @@
 
                     <!--##Generar Reporte Modulo Descargo-->
                     <div class="row" ng-if="tipoBusqueda>=15">
-                        <div class="form-group col-md-6" ng-hide="verFiltroDescargo(0)">
+                        <div class="form-group col-md-6" ng-hide="verFiltroDescargo(4)">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-success br15">Descargar</button>
                                 <button id="btnDescargar" type="button" class="btn btn-success dropdown-toggle br15" data-toggle="dropdown" aria-expanded="false">
@@ -858,10 +875,10 @@
                                             </button>
                                             <ul class="dropdown-menu dropdown-blue drop-left br15" role="menu">
                                                 <li><a href="#" ng-click="">Imprimir resumen del expediente</a></li>
-                                                <li><a href="#" ng-click="generarResumenExp(0)">Imprimir formulario</a></li>
-                                                <li><a href="#" ng-if="exp_array[0].estado==0" ng-click="">Editar expediente</a></li>
-                                                <li><a href="#" ng-if="exp_array[0].estado==0" ng-click="">Registrar dictamen</a></li>
-                                                <li><a href="#" ng-if="exp_array[0].estado==1" ng-click="">Marcar como finalizado</a></li>
+                                                <li><a href="#" ng-click="accionExp(0)">Imprimir formulario</a></li>
+                                                <li><a href="#" ng-if="exp_array[0].estado==0" ng-click="modalEdicionPropp(0)">Editar expediente</a></li>
+                                                <li><a href="#" ng-if="exp_array[0].estado==0" ng-click="accionExp(2)">Registrar dictamen</a></li>
+                                                <li><a href="#" ng-if="exp_array[0].estado==1" ng-click="accionExp(4)">Marcar como finalizado</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -871,34 +888,50 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="row">
-                                                <div class="col-md-8"><h4><strong>Detalles de la pérdida</strong></h4></div>
+                                                <div class="col-md-8">
+                                                    <h4><strong>Detalles de la pérdida</strong></h4>
+                                                    <div class="row">
+                                                        <div class="col-md-6">Tipo: <strong>{{exp_tipo[exp_array[0].tipo]}}</strong></div>
+                                                        <div class="col-md-6">Causa: <strong>{{causa[exp_array[0].causa-1]}}</strong></div>
+                                                        <div class="col-md-6">Fecha: <strong>{{exp_array[0].fecha}}</strong></div>
+                                                        <div class="col-md-6">Hora: <strong>{{exp_array[0].hora}}</strong></div>
+                                                    
+                                                    </div>
+                                                    
+                                                    <div ng-hide="exp_array[0].tipo==1">
+                                                        <div>Centro universitario: <strong>{{centrosr[exp_array[0].interno.centro-1]}}</strong></div>
+                                                        <div>Dependencia: <strong>{{dependencia[exp_array[0].interno.dep-1]}}</strong></div>
+                                                        <div>Unidad: <strong>{{unidad[exp_array[0].interno.unidad-1]}}</strong></div>
+                                                        <div>Ubicación específica: <strong>{{exp_array[0].interno.ubicacion}}</strong></div>
+                                                    </div>
+                                                    <div ng-hide="exp_array[0].tipo==0">
+                                                        <div class="row">
+                                                            <div div class="col-md-6">Departamento: <strong>{{exp_array[0].externo.depto}}</strong></div>
+                                                            <div div class="col-md-6">Municipio: <strong>{{exp_array[0].externo.muni}}</strong></div>
+                                                        </div>
+                                                        <div>Dirección exacta: <strong>{{exp_array[0].externo.direccion}}</strong></div>
+                                                    </div>
+                                                    <div>Empleado(s): <strong ng-repeat="em in exp_array[0].empleados">{{em.nombre}}, </strong></div>
+                                                </div>
+
                                                 <div class="col-md-4">Estado: 
                                                     <span class="badge" ng-if="exp_array[0].estado==0">SIN DICTAMINAR</span>
                                                     <span class="badge badge-warning" ng-if="exp_array[0].estado==1">DICTAMINADO</span>
                                                     <span class="badge badge-info" ng-if="exp_array[0].estado==2">FINALIZADO</span>
+                                                    <div ng-if="exp_array[0].estado>0">
+                                                        <h4><strong>Detalles del dictamen</strong></h4>
+                                                        <div>Número: {{exp_array[0].dictamen.numDoc}}</div>
+                                                        <div>Fecha: {{exp_array[0].dictamen.fecha}}</div>
+                                                        <div ng-if="exp_array[0].dictamen.tp==0"><strong>SIN RESPONSABILIDAD</strong></div>
+                                                        <div ng-if="exp_array[0].dictamen.tp==1">
+                                                            <div><strong>CON RESPONSABILIDAD</strong></div>
+                                                            <div>
+                                                                TR: {{causa[exp_array[0].dictamen.tr]}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            
-                                            <div class="row">
-                                                <div class="col-md-5">Tipo: <strong>{{exp_tipo[exp_array[0].tipo]}}</strong></div>
-                                                <div class="col-md-3">Causa: <strong>{{causa[exp_array[0].causa-1]}}</strong></div>
-                                                <div class="col-md-4">Fecha y Hora: <strong>{{exp_array[0].fecha}} {{exp_array[0].hora}}</strong></div>
-                                            </div>
-                                            
-                                            <div ng-hide="exp_array[0].tipo==1">
-                                                <div>Centro universitario: <strong>{{centrosr[exp_array[0].interno.centro-1]}}</strong></div>
-                                                <div>Dependencia: <strong>{{dependencia[exp_array[0].interno.dep-1]}}</strong></div>
-                                                <div>Unidad: <strong>{{unidad[exp_array[0].interno.unidad-1]}}</strong></div>
-                                                <div>Ubicación específica: <strong>{{exp_array[0].interno.ubicacion}}</strong></div>
-                                            </div>
-                                            <div ng-hide="exp_array[0].tipo==0">
-                                                <div class="row">
-                                                    <div div class="col-md-5">Departamento: <strong>{{exp_array[0].externo.depto}}</strong></div>
-                                                    <div div class="col-md-7">Municipio: <strong>{{exp_array[0].externo.muni}}</strong></div>
-                                                </div>
-                                                <div>Dirección exacta: <strong>{{exp_array[0].externo.direccion}}</strong></div>
-                                            </div>
-                                            <div>Empleado(s): <strong ng-repeat="em in exp_array[0].empleados">{{em.nombre}}, </strong></div>
                                         </div>
                                         <br>
                                         <div class="col-md-12">
@@ -1025,7 +1058,7 @@
     <!-- Modal 6 (Long Modal)-->
     <!--Inicio del form-modal6-->
     <!--Requiere código jqueryReady.js-->
-    <div class="modal fade" id="modal-6">
+    <div class="modal fade" id="modalDB">
         <div class="modal-dialog" id="modal-descargo">
             <div class="panel panel-color panel-success br15">
                 <div class="panel-heading">
@@ -1972,7 +2005,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Recepción de Bienes - Solicitud N° {{s.num}}</h3>
                     <div class="panel-options">
-                        <button id="cerrarModal" type="button" ng-click="modalDescargo=0;mostrarModal2(tabSelected)" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <button id="cerrarModalRecepcion" type="button" ng-click="modalDescargo=0;mostrarModal2(tabSelected)" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                 </div>
 
@@ -2360,7 +2393,8 @@
         <div class="modal-dialog" id="modal-propp">
             <div class="panel panel-color panel-success br15">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{mi_app[value].modalTitle}}</h3>
+                    <h3 class="panel-title" ng-hide="exp.edit == 1">{{mi_app[value].modalTitle}}</h3>
+                    <h3 class="panel-title" ng-hide="exp.edit == 0">Edición del expediente N° {{exp.numExp}}</h3>
                     <div class="panel-options">
                         <button id="cerrarModalExp" type="button" ng-click="modalDescargo=0;mostrarModal2(tabSelected)" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
@@ -2931,10 +2965,10 @@
                             </button>
                             <ul class="dropdown-menu dropdown-blue drop-left br15" role="menu">
                                 <li><a href="#" ng-click="">Imprimir resumen del expediente</a></li>
-                                <li><a href="#" ng-click="generarResumenExp(0)">Imprimir formulario</a></li>
-                                <li><a href="#" ng-if="exp.estado==0" ng-click="">Editar expediente</a></li>
-                                <li><a href="#" ng-if="exp.estado==0" ng-click="">Registrar dictamen</a></li>
-                                <li><a href="#" ng-if="exp.estado==1" ng-click="">Marcar como finalizado</a></li>
+                                <li><a href="#" ng-click="accionExp(0)">Imprimir formulario</a></li>
+                                <li><a href="#" ng-if="exp.estado==0" ng-click="modalEdicionPropp(indexSolicitud)">Editar expediente</a></li>
+                                <li><a href="#" ng-if="exp.estado==0" ng-click="accionExp(2)">Registrar dictamen</a></li>
+                                <li><a href="#" ng-if="exp.estado==1" ng-click="accionExp(4)">Marcar como finalizado</a></li>
                             </ul>
                             <button type="button" id="btn_modalvermaspropp" class="btn" data-dismiss="modal" aria-hidden="true">
                                 <span class="fa-close"></span>
@@ -2947,34 +2981,50 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-8"><h4><strong>Detalles de la pérdida</strong></h4></div>
+                                <div class="col-md-8">
+                                    <h4><strong>Detalles de la pérdida</strong></h4>
+                                    <div class="row">
+                                        <div class="col-md-6">Tipo: <strong>{{exp_tipo[exp.tipo]}}</strong></div>
+                                        <div class="col-md-6">Causa: <strong>{{causa[exp.causa-1]}}</strong></div>
+                                        <div class="col-md-6">Fecha: <strong>{{exp.fecha}}</strong></div>
+                                        <div class="col-md-6">Hora: <strong>{{exp.hora}}</strong></div>
+                                    
+                                    </div>
+                                    
+                                    <div ng-hide="exp.tipo==1">
+                                        <div>Centro universitario: <strong>{{centrosr[exp.interno.centro-1]}}</strong></div>
+                                        <div>Dependencia: <strong>{{dependencia[exp.interno.dep-1]}}</strong></div>
+                                        <div>Unidad: <strong>{{unidad[exp.interno.unidad-1]}}</strong></div>
+                                        <div>Ubicación específica: <strong>{{exp.interno.ubicacion}}</strong></div>
+                                    </div>
+                                    <div ng-hide="exp.tipo==0">
+                                        <div class="row">
+                                            <div div class="col-md-6">Departamento: <strong>{{exp.externo.depto}}</strong></div>
+                                            <div div class="col-md-6">Municipio: <strong>{{exp.externo.muni}}</strong></div>
+                                        </div>
+                                        <div>Dirección exacta: <strong>{{exp.externo.direccion}}</strong></div>
+                                    </div>
+                                    <div>Empleado(s): <strong ng-repeat="em in exp.empleados">{{em.nombre}}, </strong></div>
+                                </div>
+
                                 <div class="col-md-4">Estado: 
                                     <span class="badge" ng-if="exp.estado==0">SIN DICTAMINAR</span>
                                     <span class="badge badge-warning" ng-if="exp.estado==1">DICTAMINADO</span>
                                     <span class="badge badge-info" ng-if="exp.estado==2">FINALIZADO</span>
+                                    <div ng-if="exp.estado>0">
+                                        <h4><strong>Detalles del dictamen</strong></h4>
+                                        <div>Número: {{exp.dictamen.numDoc}}</div>
+                                        <div>Fecha: {{exp.dictamen.fecha}}</div>
+                                        <div ng-if="exp.dictamen.tp==0"><strong>SIN RESPONSABILIDAD</strong></div>
+                                        <div ng-if="exp.dictamen.tp==1">
+                                            <div><strong>CON RESPONSABILIDAD</strong></div>
+                                            <div>
+                                                TR: {{causa[exp.dictamen.tr]}}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            
-                            <div class="row">
-                                <div class="col-md-5">Tipo: <strong>{{exp_tipo[exp.tipo]}}</strong></div>
-                                <div class="col-md-3">Causa: <strong>{{causa[exp.causa-1]}}</strong></div>
-                                <div class="col-md-4">Fecha y Hora: <strong>{{exp.fecha}} {{exp.hora}}</strong></div>
-                            </div>
-                            
-                            <div ng-hide="exp.tipo==1">
-                                <div>Centro universitario: <strong>{{centrosr[exp.interno.centro-1]}}</strong></div>
-                                <div>Dependencia: <strong>{{dependencia[exp.interno.dep-1]}}</strong></div>
-                                <div>Unidad: <strong>{{unidad[exp.interno.unidad-1]}}</strong></div>
-                                <div>Ubicación específica: <strong>{{exp.interno.ubicacion}}</strong></div>
-                            </div>
-                            <div ng-hide="exp.tipo==0">
-                                <div class="row">
-                                    <div div class="col-md-5">Departamento: <strong>{{exp.externo.depto}}</strong></div>
-                                    <div div class="col-md-7">Municipio: <strong>{{exp.externo.muni}}</strong></div>
-                                </div>
-                                <div>Dirección exacta: <strong>{{exp.externo.direccion}}</strong></div>
-                            </div>
-                            <div>Empleado(s): <strong ng-repeat="em in exp.empleados">{{em.nombre}}, </strong></div>
                         </div>
                         <br>
                         <div class="col-md-12">
@@ -3041,7 +3091,142 @@
         </div>
     </div>
 
+    <!-- Modal Registrar Dictamen -->
+    <div class="modal fade" id="modal_registrarDictamen">
+        <div class="modal-dialog" id="modalRegistrarDictamen">
+            <div class="panel panel-color panel-success br15">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Registrar Dictamen de Responsabilización</h3>
+                    <div class="panel-options">
+                        <div class="btn-group rigth-dropdown">
+                            <button type="button" id="btn_modalRegistrarDictamen" class="btn" data-dismiss="modal" aria-hidden="true">
+                                <span class="fa-close"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-8"><h4><strong>Detalles del dictamen</strong></h4></div>
+                                <div class="form-group col-md-6">
+                                    <span class="bcr">*</span>
+                                    <label class="control-label" for="oficioRef">Número de dictamen:</label>
+                                    <!--data-validate="required,minlength[3],maxlength[25]"-->
+                                    <input class="form-control" name="oficioRef" id="dictamenRef" ng-model="exp.dictamen.numDoc" data-validate="minlength[3],maxlength[25]" data-message-minlength="Ingrese al menos 3 caracteres." data-message-maxlength="Ingrese un máximo de 25 caracteres.."
+                                    />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <span class="bcr">*</span>
+                                    <label class="control-label" for="rfecha">Fecha:</label>
+                                    <!--data-validate="required"-->
+                                    <input class="form-control" name="rfecha" id="exp_dicfecha" ng-model="exp.dictamen.fecha" data-mask="date" placeholder=""/>
+                                </div>
+                            </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <span class="bcr">*</span>
+                                <label class="control-label" for="state">Tipo de pérdida:</label>
+                                <select name="test" class="selectboxit" ng-model="exp.dictamen.tp" required data-validate="required" data-message-required="Este campo es obligatorio.">
+                                    <option value="0">Sin responsabilidad</option>
+                                    <option value="1">Con responsabilidad</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6" ng-hide="exp.dictamen.tp==0">
+                                <span class="bcr">*</span>
+                                <label class="control-label" for="state">Tipo de responsabilidad:</label>
+                                <select name="test" class="selectboxitForm" ng-model="exp.dictamen.tr" required data-validate="required" data-message-required="Este campo es obligatorio.">
+                                    <option value="0"> Seleccione...</option>
+                                    <option ng-repeat="res in responsabilidad" ng-value="$index+1">{{res}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="field-8" class="control-label">Descripción opcional del dictamen:</label>
+                                <textarea class="form-control autogrow" id="field-8" ng-model="exp.dictamen.descripcion" placeholder=""></textarea>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+            <div class="panel-header">
+                <div class="row">
+                    <a class="btn btn-blue br15 fr" href="#" ng-click="accionExp(3)" data-dismiss="modal">Guardar</a>
+                </div>
+            </div>
+        </div>
     </div>
+
+    </div>
+
+    <!-- Modal Marcar Expediente como Finalizado -->
+    <div class="modal fade" id="modal_MEF">
+        <div class="modal-dialog" id="modalMEF">
+            <div class="panel panel-color panel-success br15">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Marcar expediente como finalizado</h3>
+                    <div class="panel-options">
+                        <div class="btn-group rigth-dropdown">
+                            <button type="button" id="btn_modalMEF" class="btn" data-dismiss="modal" aria-hidden="true">
+                                <span class="fa-close"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-8"><h4><strong>Acción administrativa realizada por empleado:</strong></h4></div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="panel br15" ng-repeat="empleado in exp.empleados" style="margin-bottom: 0px;">
+                                            <div class="panel-heading br15">
+                                                <div class="row">
+                                                    <div class="user-image col-md-3">
+                                                        <a href="#"><img src="assets/images/user-2.png" class="img-responsive img-circle exp" /></a>
+                                                    </div>
+                                                    <div class="user-details col-md-9">
+                                                        <h4 class="user-title">{{empleado.nombre}} ({{empleado.num}})</h4>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <label class="control-label" for="state">Acción:</label>
+                                                        <select name="test" class="selectboxit" ng-model="empleado.finalizado.accion" required data-validate="required" data-message-required="Este campo es obligatorio.">
+                                                            <option value="0"> Seleccione...</option>
+                                                            <option value="1">Reposición</option>
+                                                            <option value="2">Pago TGR</option>
+                                                            <option value="3">Pago Tesorería General UNAH</option>
+                                                            <option value="4">Pago Deducción por Planilla</option>
+                                                        </select>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <textarea class="form-control autogrow" id="field-8" ng-model="empleado.finalizado.obs" placeholder="Observaciones:"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a ng-hide="empleado.finalizado.estado == 1" class="btn btn-blue br15 fr" href="#" ng-click="accionExp(5)" data-dismiss="modal">Guardar</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    </div>  
+                </div>
+            </div>
+            <div class="panel-header">
+                
+            </div>
+        </div>
+    </div>
+
+    </div>
+
     </div>
 
     <!-- Imported styles on this page -->

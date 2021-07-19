@@ -24,7 +24,8 @@
 #modalRecepcion,
 #modalComprobante,
 #modal-propp,
-#modalVerMasPropp {
+#modalVerMasPropp,
+#modalMEF {
     width: 75%;
 }
 
@@ -50,7 +51,9 @@
 
 #btnDropdown,
 #btn_modalvermas,
-#btn_modalvermaspropp {
+#btn_modalvermaspropp,
+#btn_modalRegistrarDictamen,
+#btn_modalMEF {
     background-color: cornflowerblue;
     margin-bottom: -10px;
     margin-top: -10px;

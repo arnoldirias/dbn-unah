@@ -1,6 +1,7 @@
 angular.module("dbn-app", []).controller("mi_app", function($scope) {
     //Modulo seleccionado
     $scope.value = 0;
+    $scope.mantenimiento = ["Razón de descargo", "Causas de pérdida", "Instituciones (Propiedad perdida)", "Utilización del inmueble", "Especies (Activos Biológicos)"];
     $scope.mi_app = [{
             index: 0,
             name: "Descargo de Bienes",
@@ -74,7 +75,9 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         ubicacion: 0,
         anio: 0,
         estado: 0,
-        razon: 0
+        razon: 0,
+        expEstado: 0,
+        expTipo: 0
     }
 
     //Busqueda general
@@ -123,7 +126,7 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
                 unidad: true
             }
         ],
-        //Propiedad perdida: 0.Busqueda 2.Reportes
+        //Propiedad perdida: 0.Busqueda 2.Reportes 3. Graficos
         [{
                 hide: false,
                 description: "Buscar expediente de propiedad perdida por:",
@@ -144,7 +147,11 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
                 unidad: true
             },
             {
-                hide: true
+                hide: false,
+                description: "",
+                value: 15,
+                centro: true,
+                dep: true
             }
         ],
         //Bienes inmuebles: 0.Busqueda 2.Inventario 3. Reportes
@@ -253,6 +260,7 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
     $scope.exp_tipo = ["Pérdida interna", "Pérdida externa"];
     $scope.causa = ["Robo", "Hurto", "Negligencia", "Uso indebido", "Inundación", "Incendio", "Terremoto", "Desastre natural", "Caso fortuito", "Guerra"];
     $scope.institucion = ["Dirección Policial de Investigación", "COPECO", "BOMBEROS", "Colegio de Ingenieros"];
+    $scope.responsabilidad = ["Administrativa", "Individual", "Solidaria", "Civil", "Penal", "Institucional", ]
     $scope.exp_array = [];
     $scope.exp = {
         numExp: "",
@@ -267,10 +275,11 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         doc: { institucion: 0, numDoc: "", fecha: "", hora: "", descripcion: "" },
         permiso: { numDoc: "", motivo: "", fecha: "" },
         empleados: [
-            { num: 1234, nombre: "JUAN FERNANDO AGUILERA", cargo: "PROFESOR AUXILIAR", ubicacion: "", img: "" },
-            { num: 1235, nombre: "ROSSY PAZ", cargo: "PROFESOR TITULAR", ubicacion: "", img: "" }
+            { num: 1234, nombre: "JUAN FERNANDO AGUILERA", cargo: "PROFESOR AUXILIAR", ubicacion: "", img: "", finalizado: { estado: 0, accion: 0, obs: "" } },
+            { num: 1235, nombre: "ROSSY PAZ", cargo: "PROFESOR TITULAR", ubicacion: "", img: "", finalizado: { estado: 0, accion: 0, obs: "" } }
         ],
         bienes: [],
+        dictamen: { numDoc: "", fecha: "", tr: 0, tp: 0, descripcion: "" },
         obs: ""
     };
     $scope.expedientes = [{
@@ -293,8 +302,9 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
             doc: { institucion: 1, numDoc: "DPI-1-2021", fecha: "14/01/2021", hora: "8:00", descripcion: "" },
             permiso: { numDoc: "", motivo: "", fecha: "" },
             empleados: [
-                { num: 1234, nombre: "JUAN FERNANDO AGUILERA", cargo: "PROFESOR AUXILIAR", ubicacion: "", img: "" }
-            ]
+                { num: 1234, nombre: "JUAN FERNANDO AGUILERA", cargo: "PROFESOR AUXILIAR", ubicacion: "", img: "", finalizado: { estado: 0, accion: 0, obs: "" } }
+            ],
+            dictamen: { numDoc: "", fecha: "", tr: 0, tp: 0, descripcion: "", accion: 0, obs: "" }
         },
         {
             numExp: "00215012021",
@@ -314,9 +324,10 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
             doc: { institucion: 1, numDoc: "DPI-1-2021", fecha: "14/01/2021", hora: "8:00", descripcion: "" },
             permiso: { numDoc: "DBN-1O1-2021", motivo: "", fecha: "10/01/2021" },
             empleados: [
-                { num: 1234, nombre: "JUAN FERNANDO AGUILERA", cargo: "PROFESOR AUXILIAR", ubicacion: "", img: "" },
-                { num: 1235, nombre: "ROSSY PAZ", cargo: "PROFESOR TITULAR", ubicacion: "", img: "" }
-            ]
+                { num: 1234, nombre: "JUAN FERNANDO AGUILERA", cargo: "PROFESOR AUXILIAR", ubicacion: "", img: "", finalizado: { estado: 0, accion: 0, obs: "" } },
+                { num: 1235, nombre: "ROSSY PAZ", cargo: "PROFESOR TITULAR", ubicacion: "", img: "", finalizado: { estado: 0, accion: 0, obs: "" } }
+            ],
+            dictamen: { numDoc: "SEAF-101-2021", fecha: "12/03/2021", tr: 1, tp: 1, descripcion: "" }
         },
         {
             numExp: "00316012021",
@@ -336,9 +347,10 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
             doc: { institucion: 1, numDoc: "DPI-1-2021", fecha: "14/01/2021", hora: "8:00", descripcion: "" },
             permiso: { numDoc: "DBN-1O1-2021", motivo: "", fecha: "10/01/2021" },
             empleados: [
-                { num: 1234, nombre: "JUAN FERNANDO AGUILERA", cargo: "PROFESOR AUXILIAR", ubicacion: "", img: "" },
-                { num: 1235, nombre: "ROSSY PAZ", cargo: "PROFESOR TITULAR", ubicacion: "", img: "" }
-            ]
+                { num: 1234, nombre: "JUAN FERNANDO AGUILERA", cargo: "PROFESOR AUXILIAR", ubicacion: "", img: "", finalizado: { estado: 1, accion: 2, obs: "" } },
+                { num: 1235, nombre: "ROSSY PAZ", cargo: "PROFESOR TITULAR", ubicacion: "", img: "", finalizado: { estado: 1, accion: 1, obs: "" } }
+            ],
+            dictamen: { numDoc: "SEAF-101-2021", fecha: "12/03/2021", tr: 1, tp: 1, descripcion: "" }
         }
     ];
 
@@ -505,7 +517,7 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         if ($scope.value == 0) {
             $scope.s = $scope.s2;
             $("#tabUnidad").click();
-            jQuery('#modal-6').modal('show', { backdrop: 'static' });
+            jQuery('#modalDB').modal('show', { backdrop: 'static' });
         }
         if ($scope.value == 1) {
             jQuery('#modalPropp').modal('show', { backdrop: 'static' });
@@ -524,7 +536,7 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         if ($scope.value == 0 && index == 1) {
             $scope.s = $scope.s2;
             $("#tabUnidad").click();
-            jQuery('#modal-6').modal('show', { backdrop: 'static' });
+            jQuery('#modalDB').modal('show', { backdrop: 'static' });
 
         } else if ($scope.value == 1 && index == 1) {
             $("#tabDetalles").click();
@@ -822,14 +834,14 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         if (i == 0) {
             $scope.s.estado = 4;
             $scope.totalSolicitudes[$scope.indexSolicitud] = $scope.s;
-
+            cerrarModalRecepcion.click();
             toastr.success('como descargo pendiente.',
                 'Solicitud guardada exitosamente', { "positionClass": "toast-bottom-right", "showDuration": "4000", "hideDuration": "1000", "timeOut": "10000" });
 
         } else if (i == 1) {
             $scope.s.estado = 5;
             $scope.totalSolicitudes[$scope.indexSolicitud] = $scope.s;
-
+            cerrarModalRecepcion.click();
             toastr.success('<i class="fa-file-text br15"></i> Número de comprobante: <strong>{{result.data}}</strong>',
                 'Descargo completado exitosamente', { "positionClass": "toast-bottom-right", "showDuration": "4000", "hideDuration": "1000", "timeOut": "10000" });
 
@@ -859,6 +871,12 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
             return !(($scope.value == 0) && ($scope.tabSelected == 2));
         } else if (i == 1) {
             return !(($scope.value == 0) && ($scope.tabSelected == 2 || $scope.tabSelected == 3))
+        } else if (i == 3) {
+            return !(($scope.value == 1) && ($scope.tabSelected == 2 || $scope.tabSelected == 3))
+        } else if (i == 4) {
+            return !(($scope.value == 0 || $scope.value == 1) && ($scope.tabSelected == 2));
+        } else if (i == 5) {
+            return !(($scope.value == 0 || $scope.value == 1) && ($scope.tabSelected == 2 || $scope.tabSelected == 3))
         }
         return !(($scope.value == 0) && ($scope.tabSelected == 3));
     }
@@ -875,21 +893,63 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
         }
     }
 
-    //Generar formulario
-    $scope.generarResumenExp = function(i) {
+    $scope.accionExp = function(i) {
+        //Generar formulario de responzabilización
         if (i == 0) {
             window.open("https://drive.google.com/file/d/1OEHp3PGN5F9JrhdyDlg6UfNK3WLVH2AZ/view?usp=sharing", '_blank');
         }
+
+        //Generar resumen del expediente
         if (i == 1) {
             window.open("", '_blank');
         }
 
+        //Modal Registrar Dictamen
+        if (i == 2) {
+            $scope.bienesArray = $scope.exp.bienes;
+            jQuery('#modal_registrarDictamen').modal('show', { backdrop: 'static' });
+        }
+
+        //Guardar dictamen
+        if (i == 3) {
+            if ($scope.exp_array.length == 1) {
+                $scope.indexSolicitud = 0;
+            }
+            $scope.exp_array[$scope.indexSolicitud].estado++;
+            toastr.success('<i class="fa-file-text br15"></i> Número de Expediente: <strong>{{result.data}}</strong>',
+                'Dictamen guardado con éxito', { "positionClass": "toast-bottom-right", "showDuration": "4000", "hideDuration": "1000", "timeOut": "10000" });
+        }
+
+        //Modal marcar expediente como finalizado
+        if (i == 4) {
+            $scope.bienesArray = $scope.exp.bienes;
+            jQuery('#modal_MEF').modal('show', { backdrop: 'static' });
+        }
+
+        //Guardar expediente como finalizado
+        if (i == 5) {
+            if ($scope.exp_array.length == 1) {
+                $scope.indexSolicitud = 0;
+            }
+            $scope.exp_array[$scope.indexSolicitud].estado++;
+            toastr.success('<i class="fa-file-text br15"></i> Número de Expediente: <strong>{{result.data}}</strong>',
+                'Expediente actualizado con éxito', { "positionClass": "toast-bottom-right", "showDuration": "4000", "hideDuration": "1000", "timeOut": "10000" });
+        }
     }
 
-    //Guarda el nuevo expediente
+    //Guarda o actualiza el nuevo expediente
     $scope.guardarExp = function() {
         $scope.exp.bienes = $scope.bienesArray;
-        $scope.expedientes.push($scope.exp);
+        if ($scope.exp.edit == 1) {
+            $scope.exp.edit = 0;
+            toastr.success('<i class="fa-file-text br15"></i> Número de Expediente: <strong>{{result.data}}</strong>',
+                'Expediente actualizado con éxito', { "positionClass": "toast-bottom-right", "showDuration": "4000", "hideDuration": "1000", "timeOut": "10000" });
+        } else {
+            $scope.expedientes.push($scope.exp);
+            toastr.success('<i class="fa-file-text br15"></i> Número de Expediente: <strong>{{result.data}}</strong>',
+                'Expediente guardado con éxito', { "positionClass": "toast-bottom-right", "showDuration": "4000", "hideDuration": "1000", "timeOut": "10000" });
+        }
+
         $scope.exp = {
             numExp: "",
             edit: 0,
@@ -903,24 +963,34 @@ angular.module("dbn-app", []).controller("mi_app", function($scope) {
             doc: { institucion: 0, numDoc: "", fecha: "", hora: "", descripcion: "" },
             permiso: { numDoc: "", motivo: "", fecha: "" },
             empleados: [
-                { num: 1234, nombre: "JUAN FERNANDO AGUILERA", cargo: "PROFESOR AUXILIAR", ubicacion: "", img: "" },
-                { num: 1235, nombre: "ROSSY PAZ", cargo: "PROFESOR TITULAR", ubicacion: "", img: "" }
+                { num: 1234, nombre: "JUAN FERNANDO AGUILERA", cargo: "PROFESOR AUXILIAR", ubicacion: "", img: "", finalizado: { estado: 0, accion: 0, obs: "" } },
+                { num: 1235, nombre: "ROSSY PAZ", cargo: "PROFESOR TITULAR", ubicacion: "", img: "", finalizado: { estado: 0, accion: 0, obs: "" } }
             ],
             bienes: [],
+            dictamen: { numDoc: "", fecha: "", tr: 0, tp: 0, descripcion: "" },
             obs: ""
         };
         $scope.bienesArray = [];
         $scope.bienes = [];
         $("#tabDetalles").click();
         cerrarModalExp.click();
-        toastr.success('<i class="fa-file-text br15"></i> Número de Expediente: <strong>{{result.data}}</strong>',
-            'Expediente guardado con éxito', { "positionClass": "toast-bottom-right", "showDuration": "4000", "hideDuration": "1000", "timeOut": "10000" });
     }
 
     //Desplegar modal Ver mas Propiedad perdida
     $scope.modalVerMasPropp = function(i) {
+        $scope.indexSolicitud = i;
         $scope.exp = $scope.exp_array[i];
         $scope.bienesArray = $scope.exp.bienes;
         jQuery('#modal_vermas_Propp').modal('show', { backdrop: 'static' });
+    }
+
+    //Desplegar modal de edición de expediente
+    $scope.modalEdicionPropp = function(i) {
+        btn_modalvermaspropp.click();
+        $scope.indexSolicitud = i;
+        $scope.exp = $scope.exp_array[i];
+        $scope.exp.edit = 1;
+        $scope.bienesArray = $scope.exp.bienes;
+        jQuery('#modalPropp').modal('show', { backdrop: 'static' });
     }
 });

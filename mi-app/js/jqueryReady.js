@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) {
 
-    //Modal-6
+    //Modal-DB
     $(".selectboxitForm").selectBoxIt({
         showFirstOption: false
     }).on('open', function() {
